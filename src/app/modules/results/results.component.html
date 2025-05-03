@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+<div class="results-wrapper">
+  <h1>Resultados de análisis</h1>
+<!-- Filtro de paciente -->
+    <div class="filter-bar">
+        <label for="patientFilter">Filtrar por paciente:</label>
+        <select [(ngModel)]="selectedPatientId" (change)="filterByPatient()">
+        <option value="">Todos</option>
+        <option *ngFor="let p of patientList" [value]="p.id">
+            {{ p.name }} {{ p.lastname }}
+        </option>
+        </select>
+    </div>
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>DNI</th>
+        <th>Resultado</th>
+        <th>Probabilidades</th>
+        <th>Imagen</th>
+        <th>Fecha</th>
+        <th>Validación</th>
+        <th>Comentario</th>
+        <th>Validar prediccion</th>
+      </tr>
+    </thead>
+    <tbody>
+        <!-- ✅ Mostrar mensaje si no hay resultados -->
+        <tr *ngIf="predictions.length === 0">
+            <td colspan="9" style="text-align: center; padding: 1rem;">
+            No se encontraron resultados de análisis para mostrar.
+            </td>
+        </tr>
+        <tr *ngFor="let p of predictions">
+          <td>{{ p.patient.name }} {{ p.patient.lastname }}</td>
+          <td>{{ p.patient.dni }}</td>
+          <td>{{ p.result }}</td>
+          <td>
+            EGC: {{ (p.probabilities.EGC * 100) | number:'1.0-0' }}%, 
+            Benignas: {{ (p.probabilities['LESIONES BENIGNAS'] * 100) | number:'1.0-0' }}%, 
+            Normal: {{ (p.probabilities.NORMAL * 100) | number:'1.0-0' }}%
+          </td>
+          <td>
+            <img 
+              [src]="'http://localhost:3000/public/' + p.image"
+              alt="Imagen"
+              width="50"
+              style="cursor: pointer"
+              (click)="openImageModal('http://localhost:3000/public/' + p.image)"
+            />
+          </td>
+          <td>{{ p.date | date:'yyyy-MM-dd' }}</td>
+          <td>
+            <button 
+              class="status-tag" 
+              [ngClass]="{ 'validated': p.validate }"
+              *ngIf="p.validate"
+              (click)="openDetailModal(p)"
+            >
+              Validado
+            </button>
+            <span class="status-tag" *ngIf="!p.validate">Pendiente</span>
+          </td>          
+          <td>
+            <input 
+              [(ngModel)]="p.comment" 
+              [disabled]="p.validate" 
+              placeholder="Comentario" 
+            />
+          </td>
+          <td>
+            <button 
+              (click)="validatePrediction(p.id, p.comment)" 
+              [disabled]="p.validate"
+            >Validar</button>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+    <!-- Modal para mostrar la imagen en grande -->
+    <div class="modal-backdrop" *ngIf="selectedImageUrl" (click)="closeImageModal()">
+        <div class="modal-box image-modal">
+        <img [src]="selectedImageUrl" alt="Imagen Ampliada" />
+        </div>
+    </div>
+    <!-- Modal para predicción validada -->
+    <div class="modal-backdrop" *ngIf="modalPrediction" (click)="closeDetailModal()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+        <h2>Predicción validada</h2>
+        <img 
+            [src]="'http://localhost:3000/public/' + modalPrediction.image" 
+            alt="Imagen ampliada" 
+        />
+        <p><strong>Comentario:</strong> {{ modalPrediction.comment || 'Sin comentario' }}</p>
+    
+        <div class="modal-actions">
+            <button (click)="closeDetailModal()">Cerrar</button>
+            <button class="unvalidate-btn" (click)="unvalidatePrediction(modalPrediction.id)">
+            Desvalidar
+            </button>
+        </div>
+        </div>
+    </div>
+  
+      
+</div>
+<app-footer></app-footer>

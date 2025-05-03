@@ -1,0 +1,71 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 2rem;
+    background-color: #0f1c2e;
+    color: white;
+    
+  
+    .navbar-left {
+      display: flex;
+      align-items: center;
+  
+      .logo {
+        width: 150px;
+        margin-right: 1px;
+        display: inline-block;
+        cursor: pointer;
+        img {
+            transition: transform 0.2s ease;
+        }
+        &:hover .logo {
+            transform: scale(1.05); // ligero zoom al pasar el mouse
+        }
+      }
+  
+      .brand {
+        font-weight: bold;
+        font-size: 20px;
+  
+        .highlight {
+          color: #00d1b2;
+        }
+      }
+    }
+  
+    .navbar-center {
+      display: flex;
+      gap: 2rem;
+  
+      a {
+        text-decoration: none;
+        color: white;
+        font-size: 14px;
+  
+        &:hover {
+          color: #00d1b2;
+        }
+      }
+    }
+  
+    .navbar-right {
+      display: flex;
+      gap: 1rem;
+  
+      .icon {
+        width: 50px;
+        cursor: pointer;
+      }
+    }
+  }
+  :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white; /* o el color de tu navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* sombra opcional */
+  }
+  

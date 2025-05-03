@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+
+<div class="analysis-wrapper">
+  <div class="analysis-image">
+    <img src="assets/analysis-ui.png" alt="Interfaz de análisis IA" />
+  </div>
+
+  <div class="analysis-content">
+    <h1>Analizar imágenes</h1>
+    <input type="file" class="file-input" (change)="onFileSelected($event)" />
+    <label for="patient-select">Selecciona un paciente:</label>
+    <select id="patient-select" [(ngModel)]="selectedPatientId" required>
+      <option *ngFor="let patient of patients" [value]="patient.id">
+        {{ patient.name }} {{ patient.lastname }} - {{ patient.dni }}
+      </option>
+    </select>
+    <br /><br /><br />
+    <button class="analyze-btn" (click)="onAnalyze()">Analizar</button>
+    <div class="quote-box">
+      <hr />
+      <p class="quote">
+        “Nuestro sistema basado en inteligencia artificial mejora la precisión del diagnóstico clínico.”
+      </p>
+      <strong>GastroSAI</strong>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-box">
+    <h3>Analisis completado</h3>
+    <p>La imagen se cargo correctamente al sistema y se completo el analisis.</p>
+    <div class="modal-actions">
+      <button class="confirm" (click)="confirmAnalysis()">Ver resultados</button>
+      <button class="cancel" (click)="closeModal()">Cargar otra imagen</button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

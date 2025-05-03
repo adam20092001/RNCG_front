@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<div class="profile-wrapper">
+  <h1>Mi Perfil</h1>
+
+  <div class="profile-card" *ngIf="user">
+    <label>Nombres:</label>
+    <input [(ngModel)]="user.name" />
+
+    <label>Apellidos:</label>
+    <input [(ngModel)]="user.lastname" />
+
+    <label>Correo:</label>
+    <input [(ngModel)]="user.mail" disabled />
+
+    <div class="actions">
+      <button (click)="updateProfile()">Guardar Cambios</button>
+      <button class="logout" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

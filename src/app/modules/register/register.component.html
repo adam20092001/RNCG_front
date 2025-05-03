@@ -1,0 +1,25 @@
+<app-navbar-auth></app-navbar-auth>
+<div class="auth-wrapper">
+    <div class="auth-left">
+      <h1>Bienvenido a <br /><span>GastroSAI</span></h1>
+      <p>
+        Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de
+        cáncer gástrico a partir de imágenes endoscópicas.
+      </p>
+    </div>
+  
+    <div class="auth-right">
+      <h2>Crear Cuenta</h2>
+  
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <input name="name" [(ngModel)]="form.name" placeholder="Nombres" required />
+        <input name="lastname" [(ngModel)]="form.lastname" placeholder="Apellidos" required />
+        <input name="mail" [(ngModel)]="form.mail" placeholder="Correo Electrónico" required />
+        <input name="password" type="password" [(ngModel)]="form.password" placeholder="Contraseña" required />
+        <input name="confirmPassword" type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" required />           
+  
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>
+  </div>
+    <app-footer></app-footer>  

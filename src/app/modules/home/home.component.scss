@@ -1,0 +1,56 @@
+.home-container {
+    text-align: center;
+    padding: 10rem;
+    background-color: #f5f8fa;
+    margin-top: 80px; // ajusta al alto real de tu navbar
+
+  
+    .title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+  
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+  
+      .card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 280px;
+        transition: transform 0.3s ease;
+  
+        img {
+          width: 100%;
+          border-radius: 1rem;
+          margin-bottom: 1rem;
+        }
+  
+        h2 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+  
+        a {
+          color: #2563eb;
+          text-decoration: none;
+          font-size: 0.9rem;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+  
+        &:hover {
+          transform: translateY(-5px);
+        }
+      }
+    }
+  }
+  
