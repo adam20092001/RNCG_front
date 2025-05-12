@@ -1,9 +1,12 @@
 <app-navbar-auth></app-navbar-auth>
+<div class="page-content">
+<div class="login-container-outer">
 <div class="login-container">
     <div class="login-left">
       <h1>Bienvenido a <span>GastroSAI</span></h1>
       <p>
-        Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de cáncer gástrico a partir de imágenes endoscópicas.
+        Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de 
+        cáncer gástrico a partir de imágenes endoscópicas.
       </p>
     </div>
   
@@ -19,9 +22,10 @@
   
         <div class="options">
           <label><input type="checkbox" /> Recuérdame</label>
+        </div>
+        <div class="options">
           <a href="#" (click)="openResetModal(); $event.preventDefault()">¿Olvidaste tu contraseña?</a>
         </div>
-        
         <button type="submit" class="login-btn">Iniciar sesión</button>
       </form>
         <!-- MODAL DE RESTABLECIMIENTO -->
@@ -36,11 +40,23 @@
             </div>
             </div>
         </div>
+        <!-- Modal de verificación pendiente -->
+        <div class="modal-backdrop" *ngIf="showVerifyModal">
+          <div class="modal-content">
+            <h2>📨 Verificación pendiente</h2>
+            <p>Tu cuenta aún no ha sido verificada. ¿Deseas reenviar el correo de verificación?</p>
+            <button (click)="reenviarVerificacion()">Reenviar</button>
+            <button class="close-btn" (click)="cerrarModal()">Cerrar</button>
+          </div>
+        </div>
+
       <p class="register-text">
         ¿No tienes una cuenta?
         <a routerLink="/register">Crear una cuenta</a>
       </p>
-    </div>
+    </div>   
   </div>
+</div>
+</div>
 <app-footer></app-footer>  
   

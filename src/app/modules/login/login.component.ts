@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   showResetModal = false;
+  showVerifyModal = false;
+  verificacionPendiente = false;
   resetEmail = '';
   newPassword = '';
 email: string = '';
@@ -26,6 +28,11 @@ onSubmit() {
     },
     error: (err) => {
       alert(err.error.message || '❌ Error al iniciar sesión');
+      // Si es el error de verificación
+      const msg = err.error.message
+      if (msg.includes('verificar tu correo')) {
+        this.showVerifyModal = true;
+      }
     }
   });
 }
@@ -57,5 +64,18 @@ resetPassword(): void {
     }
   });
 }
-
+cerrarModal() {
+  this.showVerifyModal = false;
+}
+reenviarVerificacion() {
+  this.http.post('http://localhost:3000/auth/resend-verification', { mail: this.email }).subscribe({
+    next: (res: any) => {
+      alert(res.message);
+      this.showVerifyModal = false;
+    },
+    error: (err) => {
+      alert(err.error.message || '❌ No se pudo reenviar el correo');
+    }
+  });
+}
 }

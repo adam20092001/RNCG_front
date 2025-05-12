@@ -1,154 +1,181 @@
+
+/* CONTENEDOR PRINCIPAL */
 .analysis-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 13rem;
-    padding: 1rem;
-    min-height: 75vh;
-    background-color: #f5f8fa;
-    margin-top: 80px; // ajusta al alto real de tu navbar
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1rem 1rem;
+  padding-top: calc(var(--navbar-height) + 1rem);
+  min-height: calc(80vh - var(--navbar-height));
+  background-color: #f5f8fa;
+  margin: 100 auto;          /* centra en pantallas grandes */
+}
 
-  
-    .analysis-image img {
-      width: 800%;
-      max-width: 760px;
-      border-radius: 1rem;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
-    }
-  
-    .analysis-content {
-      max-width: 400px;
-      text-align: center;
-  
-      h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 2rem;
-      }
-  
-      .file-input {
-        margin-bottom: 1rem;
-        padding: 0.6rem 1.2rem;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        width: 100%;
-      }
-  
-      .analyze-btn {
-        background-color: #2563eb;
-        color: white;
-        border: none;
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        font-weight: 500;
-        cursor: pointer;
-        width: 100%;
-        transition: background 0.3s ease;
-  
-        &:hover {
-          background-color: #1e40af;
-        }
-      }
-  
-      .quote-box {
-        margin-top: 2rem;
-        text-align: left;
-  
-        hr {
-          margin: 1.5rem 0;
-          border: none;
-          border-top: 1px solid #ddd;
-        }
-  
-        p {
-          font-size: 0.95rem;
-          color: #555;
-          margin-bottom: 0.5rem;
-        }
-  
-        strong {
-          font-weight: 600;
-          color: #333;
-        }
-      }
-    }
+/* IMAGEN */
+.analysis-image img {
+  width: 100%;
+  //max-width: 700px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* CONTENIDO */
+.analysis-content {
+  //max-width: 500px;
+  margin: 0 auto;         /* centra en su columna */
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
   }
 
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
+  /* Input de archivo */
+  .file-input {
+    display: block;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  
-    .modal-box {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  
-      h3 {
-        margin-bottom: 1rem;
-      }
-  
-      .modal-actions {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 1.5rem;
-  
-        .confirm {
-          background-color: #2563eb;
-          color: white;
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-        }
-  
-        .cancel {
-          background-color: #e2e8f0;
-          padding: 0.5rem 1rem;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-        }
-      }
+    padding: 0.6rem 1.2rem;
+    margin: 0 auto 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  /* Selector de paciente */
+  label {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    margin-top: 1rem;
+    box-sizing: border-box;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
     }
   }
 
-  .analysis-content {
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-      color: #333;
+  /* Botón Analizar */
+  .analyze-btn {
+    display: block;
+    width: 100%;
+    margin: 2rem auto 0;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    &:hover {
+      background-color: var(--primary-dark);
     }
-  
-    select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      background-color: #f9f9f9;
-      transition: border-color 0.3s;
-  
-      &:focus {
-        border-color: #00d1b2;
-        outline: none;
-        background-color: #fff;
+  }
+
+  /* Quote */
+  .quote-box {
+    margin-top: 2.5rem;
+    text-align: left;
+    text-align: center;
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .quote {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: black;
+      margin-bottom: 0.5rem;
+    }
+    strong {
+      font-weight: 600;
+      color: black;
+    }
+  }
+}
+
+/* MODAL (sin cambios grandes) */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+
+  .modal-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    h3 { margin-bottom: 1rem; }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      
+      .confirm {
+        background: #2563eb;
+        color: #fff;
+      }
+      .cancel {
+        background: #e2e8f0;
+      }
+      button {
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
       }
     }
   }
-  
-  
+}
+
+/* RESPONSIVE: todo en una columna en móvil */
+@media (max-width: 768px) {
+  .analysis-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: calc(var(--navbar-height) + 1rem);
+    padding-bottom: 2rem;
+  }
+  .analysis-content h1 {
+    font-size: 2rem;
+  }
+  .analysis-image img {
+    max-width: 100%;
+  }
+}

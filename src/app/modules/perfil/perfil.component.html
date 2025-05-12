@@ -15,9 +15,22 @@
 
     <div class="actions">
       <button (click)="updateProfile()">Guardar Cambios</button>
+      <button (click)="openResetModal(); $event.preventDefault()">Cambiar contrasena</button>
       <button class="logout" (click)="logout()">Cerrar Sesión</button>
     </div>
   </div>
 </div>
+<!-- MODAL DE RESTABLECIMIENTO -->
+        <div class="modal-backdrop" *ngIf="showResetModal">
+            <div class="modal-box">
+            <h2>Restablecer Contraseña</h2>
+            <input type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" />
+            <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
+            <div class="modal-actions">
+                <button (click)="resetPassword()">Restablecer</button>
+                <button (click)="closeResetModal()">Cancelar</button>
+            </div>
+            </div>
+        </div>
 
 <app-footer></app-footer>

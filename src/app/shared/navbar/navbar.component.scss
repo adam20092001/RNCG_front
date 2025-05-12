@@ -1,71 +1,148 @@
-.navbar {
+/* -----------------------------------
+   NAVBAR PRINCIPAL (Grid)
+----------------------------------- */
+.navbar-grid {
+  display: grid;
+  grid-template-columns: 
+    minmax(150px, auto)   /* logo */ 
+    1fr                    /* espacio para centrar links */ 
+    minmax(150px, auto);   /* iconos */
+  align-items: center;
+  background: var(--nav-bg);
+  height: var(--nav-height);
+  padding: 0 1rem;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.navbar-logo img {
+  height: 50px;
+}
+
+/* Enlaces desktop */
+.navbar-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+
+  li a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1rem;
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+/* Iconos derecha */
+.navbar-icons {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+
+  .icon {
+    width: 40px;
+    cursor: pointer;
+  }
+}
+
+/* Botón hamburger (oculto desktop) */
+.navbar-toggle {
+  /* sale en la cuarta columna */
+  justify-self: end;   /* lo empuja a la derecha de esa celda */
+  display: none;       /* sigue oculto en desktop; lo activas en móvil */
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  span {
+    display: block;
+    width: 5px;
+    height: 3px;
+    margin: 1px 0;
+    background: var(--text);
+    border-radius: 2px;
+  }
+}
+
+/* -----------------------------------
+   PANEL MOBILE FULLSCREEN
+----------------------------------- */
+.mobile-panel {
+  position: fixed;
+  top: 0; right: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--nav-bg);
+  transition: right 0.3s ease;
+  z-index: 999;
+
+  ul {
+    height: 100%;
+    list-style: none;
+    padding: var(--nav-height) 1rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.9rem 2rem;
-    background-color: #0f1c2e;
-    color: white;
-    
-  
-    .navbar-left {
-      display: flex;
-      align-items: center;
-  
-      .logo {
-        width: 150px;
-        margin-right: 1px;
-        display: inline-block;
-        cursor: pointer;
-        img {
-            transition: transform 0.2s ease;
-        }
-        &:hover .logo {
-            transform: scale(1.05); // ligero zoom al pasar el mouse
-        }
-      }
-  
-      .brand {
-        font-weight: bold;
-        font-size: 20px;
-  
-        .highlight {
-          color: #00d1b2;
-        }
+    flex-direction: column;
+    gap: 1.5rem;
+
+    li a {
+      color: var(--text);
+      font-size: 1.2rem;
+      text-decoration: none;
+      display: block;
+      &:hover {
+        color: var(--accent);
       }
     }
-  
-    .navbar-center {
-      display: flex;
-      gap: 2rem;
-  
-      a {
-        text-decoration: none;
-        color: white;
-        font-size: 14px;
-  
-        &:hover {
-          color: #00d1b2;
-        }
-      }
-    }
-  
-    .navbar-right {
+
+    .actions {
+      margin-top: auto;
       display: flex;
       gap: 1rem;
-  
-      .icon {
-        width: 50px;
+
+      img {
+        width: 36px;
         cursor: pointer;
       }
     }
   }
-  :host {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: white; /* o el color de tu navbar */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* sombra opcional */
+}
+
+.mobile-panel.open {
+  right: 0;
+}
+
+/* -----------------------------------
+   RESPONSIVE MÓVIL (≤768px)
+----------------------------------- */
+@media (max-width: 768px) {
+  /* Oculta el grid-links y icons */
+  .navbar-links {
+    display: none;
   }
-  
+
+  /* Muestra el toggle */
+  .navbar-toggle {
+    display: flex;
+    background: none;
+    border: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0.5rem;
+
+    span {
+      width: 28px;
+      height: 3px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+  }
+}

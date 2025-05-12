@@ -12,6 +12,7 @@ export class AnalysisComponent {
   selectedFile: File | null = null;
   patients: any[] = [];
   selectedPatientId: number | null = null;
+  predictionId: number | null = null;
 
   constructor(private router: Router, private http: HttpClient) {}
   ngOnInit(): void {
@@ -71,9 +72,10 @@ export class AnalysisComponent {
     formData.append('patientId', String(this.selectedPatientId));
   
     this.http.post('http://localhost:3000/predict', formData).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         console.log('✅ Predicción completada:', res);
         this.openModal(); // Mostrar modal si fue exitoso
+        this.predictionId = res.data?.predictionId;
       },
       error: (err) => {
         console.error('❌ Error al predecir:', err);
@@ -82,10 +84,12 @@ export class AnalysisComponent {
     });
   }
   
-
   confirmAnalysis(): void {
+    const paciente=this.selectedPatientId;
+    const predictionId = this.predictionId;
+    console.log('El paciente a ver es: ',predictionId);
     this.showModal = false;
-    this.router.navigate(['/resultados']);
+    this.router.navigate(['/resultados'], { queryParams: { predictionId: predictionId } });
   }
 }
 

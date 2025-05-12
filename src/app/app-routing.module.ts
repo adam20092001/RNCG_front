@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full' }, // redirección inicial
+  { path: 'login', redirectTo: 'login', pathMatch: 'full' }, // redirección inicial
   {
     path: 'home',
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)

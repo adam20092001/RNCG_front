@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="results-wrapper">
-  <h1>Resultados de análisis</h1>
+  <h1>Resultados de Análisis</h1>
 <!-- Filtro de paciente -->
     <div class="filter-bar">
         <label for="patientFilter">Filtrar por paciente:</label>
@@ -11,6 +11,9 @@
         </option>
         </select>
     </div>
+    <button (click)="verTodos()" class="btn-reset">
+      Ver todos los resultados
+    </button>    
   <table class="results-table">
     <thead>
       <tr>

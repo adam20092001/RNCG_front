@@ -1,23 +1,43 @@
-<nav class="navbar">
-    <div class="navbar-left">
-      <a routerLink="/home">
-        <img src="assets/logo.png" alt="Logo" class="logo" />
-      </a>
-    </div>
-  
-    <div class="navbar-center">
-      <a routerLink="/home">Home</a>
-      <a routerLink="/analysis">Análisis de imagen</a>
-      <a routerLink="/pacientes">Gestión de pacientes</a>
-      <a routerLink="/resultados">Visualización de resultados</a>
-    </div>
-  
-    <div class="navbar-right">
-      <img src="assets/bell-icon.png" alt="Notificaciones" class="icon" />
-      <a routerLink="/perfil">
-        <img src="assets/user-icon.png" alt="Usuario" class="icon" />
-      </a>
-    </div>
-  </nav>
-  
-  
+<nav class="navbar-grid">
+  <!-- LOGO -->
+  <div class="navbar-logo">
+    <a routerLink="/home">
+      <img src="assets/logo.png" alt="Logo" />
+    </a>
+  </div>
+
+  <!-- ENLACES CENTRALES (desktop) / panel oculto (móvil) -->
+  <ul class="navbar-links">
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/analysis">Análisis de imagen</a></li>
+    <li><a routerLink="/pacientes">Gestión de pacientes</a></li>
+    <li><a routerLink="/resultados">Visualización de resultados</a></li>
+  </ul>
+
+  <!-- ICONOS DERECHA -->
+  <div class="navbar-icons">
+    <img src="assets/bell-icon.png" alt="Notificaciones" class="icon" />
+    <a routerLink="/perfil">
+      <img src="assets/user-icon.png" alt="Usuario" class="icon" />
+    </a>
+  </div>
+
+  <!-- BOTÓN HAMBURGER -->
+  <button class="navbar-toggle" (click)="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PANEL FULLSCREEN en móvil -->
+<div class="mobile-panel" [class.open]="isMenuOpen">
+  <ul>
+    <li><a routerLink="/home" (click)="toggleMenu()">Home</a></li>
+    <li><a routerLink="/analysis" (click)="toggleMenu()">Análisis de imagen</a></li>
+    <li><a routerLink="/pacientes" (click)="toggleMenu()">Gestión de pacientes</a></li>
+    <li><a routerLink="/resultados" (click)="toggleMenu()">Visualización de resultados</a></li>
+    <li class="actions">
+      <img src="assets/bell-icon.png" alt="Notificaciones" />
+      <a routerLink="/perfil" (click)="toggleMenu()"><img src="assets/user-icon.png" alt="Usuario" /></a>
+    </li>
+  </ul>
+</div>

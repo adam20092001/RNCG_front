@@ -1,7 +1,7 @@
 .patients-wrapper {
     padding: 2rem;
     background-color: #f4f7fa;
-    min-height: 100vh;
+    min-height: 70vh;
     margin-top: 80px; // ajusta al alto real de tu navbar
 
   
@@ -248,6 +248,124 @@
         background-color: #5a6268;
       }
   }
-  
+  /* === TABLET: tabla horizontal scrollable === */
+@media (max-width: 1024px) {
+  .patients-wrapper {
+    padding: 1.5rem;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* inercia en iOS */
+  }
+}
+
+/* === MÓVIL: cada fila se vuelve un “card” === */
+@media (max-width: 768px) {
+  .patients-wrapper {
+    padding: 1rem;
+  }
+
+  table {
+    border: 0;
+  }
+  thead {
+    display: none;
+  }
+  tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+
+  }
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+  }
+  /* quita la línea inferior del último dato en cada “card” */
+  tbody tr td:last-child {
+    border-bottom: none;
+  }
+
+  /* antes de cada td mostramos el título de la columna */
+  tbody td:nth-child(1)::before { content: "Nombre:"; }
+  tbody td:nth-child(2)::before { content: "Apellido:"; }
+  tbody td:nth-child(3)::before { content: "Edad:"; }
+  tbody td:nth-child(4)::before { content: "Sexo:"; }
+  tbody td:nth-child(5)::before { content: "DNI:"; }
+  tbody td:nth-child(6)::before { content: "Acciones:"; }
+
+  tbody td::before {
+    flex: 0 0 35%;
+    font-weight: 600;
+    color: #0f1c2e;
+  }
+  tbody td {
+    flex: 1;
+    align-items: center;
+  }
+  /* ajusta botones en mobile */
+  tbody td button {
+    margin-left: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  /* el botón “Agregar” ocupa todo el ancho */
+  .add-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* modales full-width amigable */
+  .modal-box {
+    width: 90%;
+    max-width: none;
+    padding: 1.5rem;
+  }
+    /* 1) Fuerza que la celda de Acciones sea un flex container que pueda hacer wrap */
+  tbody td:nth-child(6) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* 2) Ajusta cada botón para que no se encoja demasiado */
+  tbody td:nth-child(6) button {
+    flex: 1 1 auto;       /* pueden crecer y encoger, pero manteniendo proporción */
+    min-width: 100px;      /* ancho mínimo para que no se compriman demasiado */
+    margin: 0;             /* eliminamos márgenes extra */
+  }
+  /* 1) Limita el ancho de cada “card” y centra */
+  tbody tr {
+    display: block;
+    max-width: 600px;     /* o el ancho que prefieras */
+    margin: 1rem auto;     /* margen superior/inferior e auto a los lados */
+  }
+
+  /* 2) Asegura que la “celda acciones” haga wrap sin salirse */
+  tbody td:nth-child(6) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  tbody td:nth-child(6) button {
+    flex: 1 1 auto;
+    min-width: 100px;
+  }
+}
   
     

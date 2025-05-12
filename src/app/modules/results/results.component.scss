@@ -173,7 +173,115 @@
     }
   }
   
+  .btn-reset {
+    background-color: #0f1c2e;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
   
+  .btn-reset:hover {
+    background-color: #0059b3;
+  }
   
+/* === TABLET: Scroll horizontal de la tabla (≤1024px) === */
+@media (max-width: 1024px) {
+  .results-wrapper {
+    padding: 1.5rem;
+  }
+
+  .results-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* === MÓVIL: Filas como cards (≤576px) === */
+@media (max-width: 576px) {
+  .results-wrapper {
+    padding: 1rem;
+  }
+
+  .results-table {
+    border: 0;
+  }
+  .results-table thead {
+    display: none;
+  }
+  .results-table tbody tr {
+    display: block;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin: 1rem auto;
+    max-width: 600px;  /* ancho máximo centrado */
+  }
+  .results-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  /* Quitar línea inferior en el último td */
+  .results-table tbody tr td:last-child {
+    border-bottom: none;
+  }
+
+  /* Etiquetas antes de cada dato */
+  .results-table tbody td:nth-child(1)::before { content: "Paciente:"; }
+  .results-table tbody td:nth-child(2)::before { content: "DNI:"; }
+  .results-table tbody td:nth-child(3)::before { content: "Resultado:"; }
+  .results-table tbody td:nth-child(4)::before { content: "Probabilidades:"; }
+  .results-table tbody td:nth-child(5)::before { content: "Imagen:"; }
+  .results-table tbody td:nth-child(6)::before { content: "Fecha:"; }
+  .results-table tbody td:nth-child(7)::before { content: "Validación:"; }
+  .results-table tbody td:nth-child(8)::before { content: "Comentario:"; }
+  .results-table tbody td:nth-child(9)::before { content: "Acción:"; }
+
+  .results-table tbody td::before {
+    flex: 0 0 35%;
+    font-weight: 600;
+    color: #0f1c2e;
+  }
+  .results-table tbody td {
+    flex: 1;
+    align-items: center;
+  }
+
+  /* Ajustar botones de validar y reset */
+  .results-table tbody td button,
+  .btn-reset {
+    flex: 1 1 auto;
+    min-width: 100px;
+    margin: 0.25rem 0 0 0;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Centrar el botón “Ver todos” */
+  .btn-reset {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
+  }
+
+  /* Modales full-width en móvil */
+  .modal-box,
+  .modal-card {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+  }
+}
+
   
   

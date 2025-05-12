@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class PerfilComponent implements OnInit {
   user: any = null;
-
+  showResetModal = false;
+  resetEmail = '';
+  newPassword = '';
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
@@ -51,4 +53,29 @@ export class PerfilComponent implements OnInit {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
+  openResetModal() {
+  this.showResetModal = true;
+  }
+  closeResetModal() {
+  this.showResetModal = false;
+  this.resetEmail = '';
+  this.newPassword = '';
+  }
+  resetPassword(): void {
+  const body = {
+    resetEmail: this.resetEmail,
+    newPassword: this.newPassword,
+  };
+
+  this.http.post('http://localhost:3000/auth/reset-password', body).subscribe({
+    next: () => {
+      alert('✅ Contraseña actualizada correctamente');
+      this.showResetModal = false;
+    },
+    error: (err) => {
+      console.error('❌ Error:', err);
+      alert(err.error.message || '❌ No se pudo restablecer la contraseña.');
+    }
+  });
+}
 }

@@ -25,14 +25,17 @@ export class RegisterComponent {
     }
 
     this.http.post('http://localhost:3000/auth/register', this.form).subscribe({
-      next: () => {
-        alert('✅ Registro exitoso');
+      next: (res: any) => {
+        alert('✅ Registro exitoso. Revisa tu correo para verificar tu cuenta.');
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('❌ Error al registrar:', err);
-        alert('❌ Error al registrar usuario');
+        alert(err.error.message || '❌ Error al registrar usuario');
       }
-    });
+    });    
+  }
+  goBack(): void {
+    this.router.navigate(['/login']);
   }
 }

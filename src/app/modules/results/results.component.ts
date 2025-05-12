@@ -16,7 +16,7 @@ export class ResultsComponent implements OnInit {
 
   userId: number | null = null;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
+  constructor(private http: HttpClient, public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     const userData = localStorage.getItem('user');
@@ -31,8 +31,9 @@ export class ResultsComponent implements OnInit {
 
     this.loadPatients();
     this.fetchPredictions();
+    this.loadPredictionsFromRoute(); 
 
-    this.route.queryParams.subscribe(params => {
+    /* this.route.queryParams.subscribe(params => {
       const patientId = params['patientId'];
       let url = `http://localhost:3000/predictions/user/${this.userId}`;
 
@@ -50,7 +51,43 @@ export class ResultsComponent implements OnInit {
           console.error('❌ Error al cargar predicciones:', err);
         }
       });
-    });
+    }); */
+    /* this.route.queryParams.subscribe(params => {
+      const predictionId = params['predictionId'];
+      const patientId = params['patientId'];
+    
+      if (predictionId) {
+        // 🧠 Cargar una sola predicción por su ID
+        this.http.get<any>(`http://localhost:3000/predictions/${predictionId}`).subscribe({
+          next: (data) => {
+            this.predictions = [data]; // como array para que *ngFor lo acepte
+            console.log('📥 Predicción individual:', data);
+          },
+          error: (err) => {
+            console.error('❌ Error al cargar predicción única:', err);
+            alert('❌ No se pudo cargar la predicción');
+          }
+        });
+      } else {
+        // 🔁 Comportamiento original: por paciente o todos
+        let url = `http://localhost:3000/predictions/user/${this.userId}`;
+        if (patientId) {
+          url = `http://localhost:3000/predictions/user/${this.userId}/patient/${patientId}`;
+          this.selectedPatientId = patientId;
+        }
+    
+        this.http.get<any[]>(url).subscribe({
+          next: (data) => {
+            this.predictions = data;
+            console.log('📥 Predicciones:', data);
+          },
+          error: (err) => {
+            console.error('❌ Error al cargar predicciones:', err);
+          }
+        });
+      }
+    }); */
+    
   }
 
   openImageModal(imageUrl: string) {
@@ -135,5 +172,49 @@ export class ResultsComponent implements OnInit {
     } else {
       this.fetchPredictions(); // sin filtro
     }
+  } 
+  verTodos(): void {
+    this.selectedPatientId = '';
+  
+    this.router.navigate(['/resultados']).then(() => {
+      this.loadPredictionsFromRoute(); // 👈 recarga lógica explícitamente
+    });
   }
+    
+  loadPredictionsFromRoute(): void {
+    this.route.queryParams.subscribe(params => {
+      const predictionId = params['predictionId'];
+      const patientId = params['patientId'];
+  
+      if (predictionId) {
+        this.http.get<any>(`http://localhost:3000/predictions/${predictionId}`).subscribe({
+          next: (data) => {
+            this.predictions = [data];
+            console.log('📥 Predicción individual:', data);
+          },
+          error: (err) => {
+            console.error('❌ Error al cargar predicción única:', err);
+            alert('❌ No se pudo cargar la predicción');
+          }
+        });
+      } else {
+        let url = `http://localhost:3000/predictions/user/${this.userId}`;
+        if (patientId) {
+          url = `http://localhost:3000/predictions/user/${this.userId}/patient/${patientId}`;
+          this.selectedPatientId = patientId;
+        }
+  
+        this.http.get<any[]>(url).subscribe({
+          next: (data) => {
+            this.predictions = data;
+            console.log('📥 Predicciones:', data);
+          },
+          error: (err) => {
+            console.error('❌ Error al cargar predicciones:', err);
+          }
+        });
+      }
+    });
+  }
+  
 }

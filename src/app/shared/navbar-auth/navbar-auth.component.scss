@@ -1,26 +1,23 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.9rem 2rem;
-    background-color: #0f1c2e;
-    color: white;
+  display: grid;
+  grid-template-columns: 
+    minmax(150px, auto)   /* logo */ 
+    1fr                    /* espacio para centrar links */ 
+    minmax(150px, auto);   /* iconos */
+  align-items: center;
+  background: var(--nav-bg);
+  height: var(--nav-height);
+  padding: 0 1rem;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
   
     .navbar-left {
       display: flex;
       align-items: center;
   
       .logo {
-        width: 150px;
-        margin-right: 1px;
-        display: inline-block;
-        cursor: pointer;
-        img {
-            transition: transform 0.2s ease;
-        }
-        &:hover .logo {
-            transform: scale(1.05); // ligero zoom al pasar el mouse
-        }
+        height: 50px;
       }
   
       .brand {
@@ -58,4 +55,12 @@
       }
     }
   }
-  
+  :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    z-index: 1000;
+    /* tu fondo, sombra, etc */
+  }  
