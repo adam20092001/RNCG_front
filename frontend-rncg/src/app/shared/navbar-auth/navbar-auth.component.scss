@@ -1,0 +1,66 @@
+.navbar {
+  display: grid;
+  grid-template-columns: 
+    minmax(150px, auto)   /* logo */ 
+    1fr                    /* espacio para centrar links */ 
+    minmax(150px, auto);   /* iconos */
+  align-items: center;
+  background: var(--nav-bg);
+  height: var(--nav-height);
+  padding: 0 1rem;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  
+    .navbar-left {
+      display: flex;
+      align-items: center;
+  
+      .logo {
+        height: 50px;
+      }
+  
+      .brand {
+        font-weight: bold;
+        font-size: 20px;
+  
+        .highlight {
+          color: #00d1b2;
+        }
+      }
+    }
+  
+    .navbar-center {
+      display: flex;
+      gap: 2rem;
+  
+      a {
+        text-decoration: none;
+        color: white;
+        font-size: 14px;
+  
+        &:hover {
+          color: #00d1b2;
+        }
+      }
+    }
+  
+    .navbar-right {
+      display: flex;
+      gap: 1rem;
+  
+      .icon {
+        width: 50px;
+        cursor: pointer;
+      }
+    }
+  }
+  :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    z-index: 1000;
+    /* tu fondo, sombra, etc */
+  }  

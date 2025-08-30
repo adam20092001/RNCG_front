@@ -1,0 +1,371 @@
+.patients-wrapper {
+    padding: 2rem;
+    background-color: #f4f7fa;
+    min-height: 70vh;
+    margin-top: 80px; // ajusta al alto real de tu navbar
+
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #0f1c2e;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      overflow: hidden;
+  
+      th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+  
+      thead {
+        background-color: #0f1c2e;
+        color: white;
+  
+        th {
+          font-weight: 600;
+        }
+      }
+  
+      tbody {
+        tr:hover {
+          background-color: #f1f1f1;
+        }
+  
+        td {
+          vertical-align: middle;
+        }
+  
+        .edit, .delete {
+          padding: 0.4rem 0.8rem;
+          border: none;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          cursor: pointer;
+          margin-right: 0.5rem;
+          transition: background-color 0.2s ease;
+        }
+  
+        .edit {
+          background-color: #00bfa5;
+          color: white;
+  
+          &:hover {
+            background-color: #009e88;
+          }
+        }
+  
+        .delete {
+          background-color: #e74c3c;
+          color: white;
+  
+          &:hover {
+            background-color: #c0392b;
+          }
+        }
+      }
+    }
+  
+    .add-button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      background-color: #0f1c2e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #1b2f47;
+      }
+    }
+  }
+  //css modal
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  
+    .modal-box {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  
+      h2 {
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #0f1c2e;
+      }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+  
+        input, select {
+          padding: 0.7rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 1rem;
+        }
+  
+        .modal-actions {
+          display: flex;
+          justify-content: space-between;
+  
+          button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+  
+          button:first-child {
+            background-color: #00bfa5;
+            color: white;
+          }
+  
+          button:last-child {
+            background-color: #e74c3c;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  //css modal editar
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  
+    .modal-box {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  
+      h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 1.4rem;
+        color: #0f1c2e;
+      }
+  
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+  
+        label {
+          margin-bottom: 5px;
+          font-weight: 600;
+          color: #333;
+        }
+  
+        input,
+        select {
+          padding: 8px;
+          font-size: 14px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+  
+        select {
+          background-color: #fff;
+        }
+      }
+  
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+  
+        .cancel {
+          background-color: #999;
+          color: white;
+          padding: 8px 14px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+  
+        .confirm {
+          background-color: #009688;
+          color: white;
+          padding: 8px 14px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+  
+        .cancel:hover,
+        .confirm:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  button.view {
+    background-color: #6c757d; // gris azulado Bootstrap-like
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  
+    button.view:hover {
+        background-color: #5a6268;
+      }
+  }
+  /* === TABLET: tabla horizontal scrollable === */
+@media (max-width: 1024px) {
+  .patients-wrapper {
+    padding: 1.5rem;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* inercia en iOS */
+  }
+}
+
+/* === MÓVIL: cada fila se vuelve un “card” === */
+@media (max-width: 768px) {
+  .patients-wrapper {
+    padding: 1rem;
+  }
+
+  table {
+    border: 0;
+  }
+  thead {
+    display: none;
+  }
+  tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+
+  }
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+  }
+  /* quita la línea inferior del último dato en cada “card” */
+  tbody tr td:last-child {
+    border-bottom: none;
+  }
+
+  /* antes de cada td mostramos el título de la columna */
+  tbody td:nth-child(1)::before { content: "Nombre:"; }
+  tbody td:nth-child(2)::before { content: "Apellido:"; }
+  tbody td:nth-child(3)::before { content: "Edad:"; }
+  tbody td:nth-child(4)::before { content: "Sexo:"; }
+  tbody td:nth-child(5)::before { content: "DNI:"; }
+  tbody td:nth-child(6)::before { content: "Acciones:"; }
+
+  tbody td::before {
+    flex: 0 0 35%;
+    font-weight: 600;
+    color: #0f1c2e;
+  }
+  tbody td {
+    flex: 1;
+    align-items: center;
+  }
+  /* ajusta botones en mobile */
+  tbody td button {
+    margin-left: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  /* el botón “Agregar” ocupa todo el ancho */
+  .add-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* modales full-width amigable */
+  .modal-box {
+    width: 90%;
+    max-width: none;
+    padding: 1.5rem;
+  }
+    /* 1) Fuerza que la celda de Acciones sea un flex container que pueda hacer wrap */
+  tbody td:nth-child(6) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* 2) Ajusta cada botón para que no se encoja demasiado */
+  tbody td:nth-child(6) button {
+    flex: 1 1 auto;       /* pueden crecer y encoger, pero manteniendo proporción */
+    min-width: 100px;      /* ancho mínimo para que no se compriman demasiado */
+    margin: 0;             /* eliminamos márgenes extra */
+  }
+  /* 1) Limita el ancho de cada “card” y centra */
+  tbody tr {
+    display: block;
+    max-width: 600px;     /* o el ancho que prefieras */
+    margin: 1rem auto;     /* margen superior/inferior e auto a los lados */
+  }
+
+  /* 2) Asegura que la “celda acciones” haga wrap sin salirse */
+  tbody td:nth-child(6) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  tbody td:nth-child(6) button {
+    flex: 1 1 auto;
+    min-width: 100px;
+  }
+}
+  
+    

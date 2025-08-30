@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-analysis',
@@ -21,18 +23,18 @@ export class AnalysisComponent {
     const userId = user?.id;
   
     if (!userId) {
-      alert('⚠️ Usuario no identificado. Inicia sesión nuevamente.');
+      alert('Usuario no identificado. Inicia sesión nuevamente.');
       this.router.navigate(['/login']);
       return;
     }
   
-    this.http.get<any[]>(`http://localhost:3000/patients/user/${userId}`).subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/patients/user/${userId}`).subscribe({
       next: (data) => {
         this.patients = data;
-        console.log('📋 Pacientes cargados:', data);
+        console.log(' Pacientes cargados:', data);
       },
       error: (err) => {
-        console.error('❌ Error al cargar pacientes:', err);
+        console.error(' Error al cargar pacientes:', err);
       }
     });
   }
@@ -43,6 +45,9 @@ export class AnalysisComponent {
 
   closeModal() {
     this.showModal = false;
+    this.selectedPatientId= null; // Limpiar el ID del paciente al cerrar el modal
+    this.selectedFile= null; // Limpiar el archivo seleccionado al cerrar el modal
+    window.location.reload();
   }
 
   onFileSelected(event: any): void {
@@ -71,7 +76,7 @@ export class AnalysisComponent {
     formData.append('userId', String(userId));
     formData.append('patientId', String(this.selectedPatientId));
   
-    this.http.post('http://localhost:3000/predict', formData).subscribe({
+    this.http.post(`${environment.apiUrl}/predict`, formData).subscribe({
       next: (res:any) => {
         console.log('✅ Predicción completada:', res);
         this.openModal(); // Mostrar modal si fue exitoso
@@ -79,7 +84,7 @@ export class AnalysisComponent {
       },
       error: (err) => {
         console.error('❌ Error al predecir:', err);
-        alert('❌ Error al enviar la imagen al backend.');
+        //alert('❌ Error al enviar la imagen al backend.');
       }
     });
   }

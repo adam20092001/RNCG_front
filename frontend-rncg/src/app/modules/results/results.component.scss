@@ -1,0 +1,287 @@
+.results-wrapper {
+    background-color: #f5f8fa;
+    padding: 2rem;
+    min-height: 100vh;
+    margin-top: 80px; // ajusta al alto real de tu navbar
+
+  
+    h1 {
+      margin-bottom: 1.5rem;
+      color: #0f1c2e;
+    }
+  
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+  
+      th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      th {
+        background-color: #0f1c2e;
+        color: white;
+      }
+  
+      .status-tag {
+        padding: 4px 8px;
+        border-radius: 5px;
+        background: orange;
+        color: white;
+        font-size: 0.85rem;
+      }
+    }
+  }
+  //modal imagenes
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  
+    .modal-box.image-modal {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 90%;
+        max-height: 90vh; // aumentamos el alto disponible
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+      img {
+        max-width: 100%;
+        max-height: 90vh; // limita al 90% de la altura de la pantalla
+        display: block;
+        object-fit: contain;
+        border-radius: 10px;
+      }
+      
+    }
+  }
+  //aaa
+  .status-tag.validated {
+    background-color: #2ecc71;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  .results-table input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 180px;
+  
+    &:focus {
+      border-color: #00d1b2;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 209, 178, 0.4);
+    }
+  
+    &:disabled {
+      background-color: #f5f5f5;
+      color: #999;
+      cursor: not-allowed;
+    }
+  
+    &::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+  }
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 700px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.3s ease-in-out;
+  
+    h2 {
+      margin-bottom: 1rem;
+    }
+  
+    img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+  
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+  
+      button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+  
+      .unvalidate-btn {
+        background-color: #f44336;
+        color: white;
+      }
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .filter-bar {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+    select {
+      padding: 5px;
+      font-size: 14px;
+    }
+  }
+  
+  .btn-reset {
+    background-color: #0f1c2e;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-reset:hover {
+    background-color: #0059b3;
+  }
+  
+/* === TABLET: Scroll horizontal de la tabla (≤1024px) === */
+@media (max-width: 1024px) {
+  .results-wrapper {
+    padding: 1.5rem;
+  }
+
+  .results-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* === MÓVIL: Filas como cards (≤576px) === */
+@media (max-width: 576px) {
+  .results-wrapper {
+    padding: 1rem;
+  }
+
+  .results-table {
+    border: 0;
+  }
+  .results-table thead {
+    display: none;
+  }
+  .results-table tbody tr {
+    display: block;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin: 1rem auto;
+    max-width: 600px;  /* ancho máximo centrado */
+  }
+  .results-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  /* Quitar línea inferior en el último td */
+  .results-table tbody tr td:last-child {
+    border-bottom: none;
+  }
+
+  /* Etiquetas antes de cada dato */
+  .results-table tbody td:nth-child(1)::before { content: "Paciente:"; }
+  .results-table tbody td:nth-child(2)::before { content: "DNI:"; }
+  .results-table tbody td:nth-child(3)::before { content: "Resultado:"; }
+  .results-table tbody td:nth-child(4)::before { content: "Probabilidades:"; }
+  .results-table tbody td:nth-child(5)::before { content: "Imagen:"; }
+  .results-table tbody td:nth-child(6)::before { content: "Fecha:"; }
+  .results-table tbody td:nth-child(7)::before { content: "Validación:"; }
+  .results-table tbody td:nth-child(8)::before { content: "Comentario:"; }
+  .results-table tbody td:nth-child(9)::before { content: "Acción:"; }
+
+  .results-table tbody td::before {
+    flex: 0 0 35%;
+    font-weight: 600;
+    color: #0f1c2e;
+  }
+  .results-table tbody td {
+    flex: 1;
+    align-items: center;
+  }
+
+  /* Ajustar botones de validar y reset */
+  .results-table tbody td button,
+  .btn-reset {
+    flex: 1 1 auto;
+    min-width: 100px;
+    margin: 0.25rem 0 0 0;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Centrar el botón “Ver todos” */
+  .btn-reset {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
+  }
+
+  /* Modales full-width en móvil */
+  .modal-box,
+  .modal-card {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;
+  }
+}
+
+  
+  
