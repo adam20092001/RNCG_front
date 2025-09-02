@@ -1,9 +1,55 @@
 :root {
-    --navbar-height: 80px; /* Ajusta este valor al alto real de tu navbar */
+    --navbar-height: 88px; /* Ajusta este valor al alto real de tu navbar */
     --footer-height: 60px; /* Si tu footer también es fijo */
     --nav-bg:    #0f1c2e;
-    --nav-height: 80px;
+    --nav-height: 88px;
     --accent:    #00d1b2;
     --text:      #ffffff;
   }
+  
+/* Iconos (FA) */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+
+/* Tipografía y resets suaves */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  color: #e5e7eb;
+  background: #0b1220;
+}
+
+/* Layout con navbar fijo: crea espacio superior e inferior */
+.page-content {
+  min-height: calc(100vh - var(--footer-height));
+  padding-top: var(--navbar-height);
+}
+
+/* Enlaces base */
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Global image defaults: keep logos crisp and proportional */
+img.brand__logo, img.brand-logo { max-width: 100%; height: auto; object-fit: contain; }
+
+/* Botones base */
+button, .btn {
+  background: #ffffff;
+  color: #0f1c2e;
+  border: 1px solid #0ea5e9; /* celeste */
+  padding: 0.65rem 1.05rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(2, 6, 23, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+button:hover, .btn:hover { box-shadow: 0 10px 20px rgba(2, 6, 23, 0.12); border-color: #38bdf8; background-color: #f0f9ff; }
+button:active, .btn:active { transform: translateY(1px); }
+button:focus-visible, .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(14,165,233,0.2); }
+button:disabled { opacity: 0.6; cursor: default; }
+
+/* Utilidades */
+.container { width: min(1200px, 100% - 2rem); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 1px, 1px); border: 0; }
   

@@ -1,27 +1,111 @@
 <app-navbar></app-navbar>
 <div class="page-content">
 <div class="home-container">
-    <h1 class="title">Menu Principal</h1>
-  
-    <div class="card-container">
-      <div class="card">
-        <img routerLink="/analysis" src="assets/imagen-analisis.png" alt="Análisis IA" />
-        <h2>Analiza imágenes<br />endoscópicas con ayuda de IA.</h2>
-        <a routerLink="/analysis">Análisis de imagen</a>
+    <section class="hero">
+      <div class="hero-content container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1 class="fade-up-1">Bienvenido a <span class="brand-gradient">GastroSAI</span></h1>
+            <p class="fade-up-2">Diagnóstico asistido por IA para imágenes endoscópicas. Rápido, confiable y diseñado para clínicas.</p>
+            <div class="hero-ctas fade-up-3">
+              <a class="btn primary btn-lg" routerLink="/analysis"><i class="fa-solid fa-magnifying-glass-chart"></i> Comenzar análisis</a>
+              <a class="btn ghost btn-lg" routerLink="/resultados"><i class="fa-solid fa-chart-column"></i> Ver resultados</a>
+            </div>
+          </div>
+          <div class="hero-visual fade-up-3" aria-hidden="true">
+            <div class="visual-circle">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <div class="visual-badges">
+              <span><i class="fa-solid fa-stethoscope"></i></span>
+              <span><i class="fa-solid fa-shield-heart"></i></span>
+              <span><i class="fa-solid fa-gauge-high"></i></span>
+            </div>
+          </div>
+        </div>
       </div>
-  
-      <div class="card">
-        <img routerLink="/pacientes" src="assets/pacientes.png" alt="Gestión de pacientes" />
-        <h2>Administra pacientes y sus<br />registros clínicos.</h2>
-        <a routerLink="/pacientes">Gestión de pacientes</a>
+    </section>
+    <h1 class="title">Nuestros servicios con IA</h1>
+
+    <!-- Servicios como secciones verticales -->
+    <section class="service-section section-1" appReveal>
+      <div class="service-inner container">
+        <div class="service-media from-left">
+          <img src="assets/imagen-analisis.png" alt="Análisis de imagen con IA" />
+        </div>
+        <div class="service-text from-right">
+          <h2>Análisis de imagen</h2>
+          <p>Analiza imágenes endoscópicas con ayuda de IA para apoyar el diagnóstico de forma rápida y confiable.</p>
+        </div>
       </div>
-  
-      <div class="card">
-        <img routerLink="/resultados" src="assets/resultados.png" alt="Resultados" />
-        <h2>Consulta diagnósticos<br /><br /></h2>
-        <a routerLink="/resultados">Visualización de resultados</a>
+    </section>
+
+    <section class="service-section section-2 alt" appReveal>
+      <div class="service-inner container reverse">
+        <div class="service-media from-right">
+          <img src="assets/pacientes.png" alt="Gestión de pacientes" />
+        </div>
+        <div class="service-text from-left">
+          <h2>Gestión de pacientes</h2>
+          <p>Administra pacientes y sus registros clínicos con un flujo claro y seguro para tu equipo médico.</p>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="service-section section-3 gradient" appReveal>
+      <div class="service-inner container">
+        <div class="service-media from-left">
+          <img src="assets/resultados.png" alt="Visualización de resultados" />
+        </div>
+        <div class="service-text from-right">
+          <h2>Visualización de resultados</h2>
+          <p>Consulta diagnósticos y reportes con visualizaciones claras para acelerar la toma de decisiones.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features container">
+      <div class="feature" appReveal>
+        <i class="fa-solid fa-microchip"></i>
+        <h3>IA confiable</h3>
+        <p>Modelos entrenados para apoyar decisiones clínicas con precisión.</p>
+      </div>
+      <div class="feature" appReveal>
+        <i class="fa-solid fa-user-nurse"></i>
+        <h3>Diseño para médicos</h3>
+        <p>Flujos simples y claros, optimizados para el día a día clínico.</p>
+      </div>
+      <div class="feature" appReveal>
+        <i class="fa-solid fa-gauge-high"></i>
+        <h3>Resultados inmediatos</h3>
+        <p>Procesamiento rápido para obtener insights en minutos.</p>
+      </div>
+      <div class="feature" appReveal>
+        <i class="fa-solid fa-shield-heart"></i>
+        <h3>Seguridad garantizada</h3>
+        <p>Buenas prácticas y protección de datos de pacientes.</p>
+      </div>
+    </section>
+
+    <!-- Testimonials Section (placeholder) -->
+    <section class="testimonials container" appReveal>
+      <blockquote>
+        “GastroSAI nos ayuda a agilizar el diagnóstico y a mejorar la precisión en nuestros estudios endoscópicos.”
+      </blockquote>
+      <div class="cite">— Equipo de gastroenterología</div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner" appReveal>
+      <div class="container cta-inner">
+        <div class="cta-text">
+          <h2>Empieza a transformar el diagnóstico en tu clínica hoy</h2>
+          <p>Implementa IA asistida con un flujo simple y seguro.</p>
+        </div>
+        <a class="btn primary" routerLink="/analysis">Comenzar ahora</a>
+      </div>
+    </section>
   </div>
 </div>
 

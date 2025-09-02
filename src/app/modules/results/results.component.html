@@ -1,41 +1,51 @@
 <app-navbar></app-navbar>
 <div class="results-wrapper">
-  <h1>Resultados de Análisis</h1>
-<!-- Filtro de paciente -->
-    <div class="filter-bar">
-        <label for="patientFilter">Filtrar por paciente:</label>
-        <select [(ngModel)]="selectedPatientId" (change)="filterByPatient()">
-        <option value="">Todos</option>
-        <option *ngFor="let p of patientList" [value]="p.id">
-            {{ p.name }} {{ p.lastname }}
-        </option>
+  <div class="header-row">
+    <h1><i class="fa-solid fa-microscope"></i> Resultados de Análisis</h1>
+    <div class="toolbar">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar por paciente o DNI..." [(ngModel)]="tempSearchText" (ngModelChange)="onSearchChange($event)" />
+      </div>
+      <div class="filters">
+        <label for="patientFilter">Paciente</label>
+        <select id="patientFilter" [(ngModel)]="selectedPatientId" (change)="filterByPatient()">
+          <option value="">Todos</option>
+          <option *ngFor="let p of patientList" [value]="p.id">{{ p.name }} {{ p.lastname }}</option>
         </select>
+      </div>
+      <button (click)="verTodos()" class="btn-primary">
+        Ver todos los resultados
+      </button>
     </div>
-    <button (click)="verTodos()" class="btn-reset">
-      Ver todos los resultados
-    </button>    
+  </div>
+
+  <div class="table-card">
   <table class="results-table">
     <thead>
       <tr>
-        <th>Paciente</th>
-        <th>DNI</th>
-        <th>Resultado</th>
+        <th>Paciente <span class="sort"></span></th>
+        <th>DNI <span class="sort"></span></th>
+        <th>Resultado <span class="sort"></span></th>
         <th>Probabilidades</th>
         <th>Imagen</th>
-        <th>Fecha</th>
+        <th>Fecha <span class="sort"></span></th>
         <th>Validación</th>
         <th>Comentario</th>
-        <th>Validar prediccion</th>
+        <th>Acción</th>
       </tr>
     </thead>
     <tbody>
-        <!-- ✅ Mostrar mensaje si no hay resultados -->
-        <tr *ngIf="predictions.length === 0">
-            <td colspan="9" style="text-align: center; padding: 1rem;">
-            No se encontraron resultados de análisis para mostrar.
-            </td>
+        <tr *ngIf="pagedResults.length === 0">
+          <td colspan="9">
+            <div class="empty-state">
+              <i class="fa-solid fa-file-circle-question"></i>
+              <h3>No se encontraron resultados de análisis.</h3>
+              <p>Sube imágenes y genera un análisis para ver los resultados aquí.</p>
+            </div>
+          </td>
         </tr>
-        <tr *ngFor="let p of predictions">
+        <tr *ngFor="let p of pagedResults">
           <td>{{ p.patient.name }} {{ p.patient.lastname }}</td>
           <td>{{ p.patient.dni }}</td>
           <td>{{ p.result }}</td>
@@ -45,24 +55,13 @@
             Normal: {{ (p.probabilities.NORMAL * 100) | number:'1.0-0' }}%
           </td>
           <td>
-            <img 
-              [src]="p.image"
-              alt="Imagen"
-              width="50"
-              style="cursor: pointer"
-              (click)="openImageModal(p.image)"
-            />
+            <button class="icon" (click)="openImageModal(p.image)" title="Ver imagen">
+              <i class="fa-solid fa-image"></i>
+            </button>
           </td>
           <td>{{ p.date | date:'yyyy-MM-dd' }}</td>
           <td>
-            <button 
-              class="status-tag" 
-              [ngClass]="{ 'validated': p.validate }"
-              *ngIf="p.validate"
-              (click)="openDetailModal(p)"
-            >
-              Validado
-            </button>
+            <button class="status-tag" [ngClass]="{ 'validated': p.validate }" *ngIf="p.validate" (click)="openDetailModal(p)">Validado</button>
             <span class="status-tag" *ngIf="!p.validate">Pendiente</span>
           </td>          
           <td>
@@ -73,14 +72,21 @@
             />
           </td>
           <td>
-            <button 
-              (click)="validatePrediction(p.id, p.comment)" 
-              [disabled]="p.validate"
-            >Validar</button>
+            <button class="btn-primary" (click)="validatePrediction(p.id, p.comment)" [disabled]="p.validate">
+              Validar
+            </button>
           </td>
         </tr>
       </tbody>
   </table>
+  </div>
+  <div class="pagination">
+    <div class="info">Mostrando {{ startIndex }}–{{ endIndex }} de {{ totalResults }}</div>
+    <div class="controls">
+      <button class="page-btn" (click)="prevPage()" [disabled]="pageIndex === 0">Anterior</button>
+      <button class="page-btn" (click)="nextPage()" [disabled]="endIndex >= totalResults">Siguiente</button>
+    </div>
+  </div>
     <!-- Modal para mostrar la imagen en grande -->
     <div class="modal-backdrop" *ngIf="selectedImageUrl" (click)="closeImageModal()">
         <div class="modal-box image-modal">
@@ -89,20 +95,32 @@
     </div>
     <!-- Modal para predicción validada -->
     <div class="modal-backdrop" *ngIf="modalPrediction" (click)="closeDetailModal()">
-        <div class="modal-card" (click)="$event.stopPropagation()">
-        <h2>Predicción validada</h2>
-        <img 
-            [src]="selectedImageUrlval" 
-            alt="Imagen ampliada" 
-        />
-        <p><strong>Comentario:</strong> {{ modalPrediction.comment || 'Sin comentario' }}</p>
+        <div class="modal-card validated-modal" role="dialog" aria-labelledby="validated-title" aria-modal="true" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <span class="validation-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" focusable="false" aria-hidden="true">
+                <path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.1 5.1a1 1 0 0 1-1.4 0l-2.2-2.2a1 1 0 1 1 1.4-1.4l1.5 1.5 4.4-4.4a1 1 0 1 1 1.4 1.4Z"/>
+              </svg>
+            </span>
+            <h2 id="validated-title">Predicción validada</h2>
+          </div>
+
+          <div class="image-frame">
+            <img 
+              [src]="selectedImageUrlval" 
+              alt="Imagen ampliada" 
+            />
+          </div>
+
+          <div class="comment-section">
+            <label>Comentario:</label>
+            <p class="comment-text">{{ modalPrediction.comment || 'Sin comentario' }}</p>
+          </div>
     
-        <div class="modal-actions">
-            <button (click)="closeDetailModal()">Cerrar</button>
-            <button class="unvalidate-btn" (click)="unvalidatePrediction(modalPrediction.id)">
-            Desvalidar
-            </button>
-        </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline-gray" (click)="closeDetailModal()">Cerrar</button>
+            <button class="btn btn-warning" (click)="unvalidatePrediction(modalPrediction.id)">Desvalidar</button>
+          </div>
         </div>
     </div>
   

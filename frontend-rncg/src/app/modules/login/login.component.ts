@@ -17,24 +17,35 @@ export class LoginComponent {
   newPassword = '';
 email: string = '';
 password: string = '';
+showPassword: boolean = false;
+loading: boolean = false;
+errorMessage: string = '';
 constructor(private http: HttpClient, private router: Router) {}
 onSubmit() {
+  this.errorMessage = '';
+  this.loading = true;
   const body = { email: this.email, password: this.password };
 
   this.http.post<any>(`${environment.apiUrl}/auth/login`, body).subscribe({
     next: (res) => {
       //alert('✅ Inicio de sesión exitoso');
       localStorage.setItem('user', JSON.stringify(res.user)); // 👈 Guardamos el usuario
-
       this.router.navigate(['/home']); // o redirige a donde quieras
     },
     error: (err) => {
-      alert(err.error.message || '❌ Error al iniciar sesión');
-      // Si es el error de verificación
-      const msg = err.error.message
-      if (msg.includes('verificar tu correo')) {
+      const rawMsg = (err?.error?.message || '').toLowerCase();
+      if (err?.status === 401 || rawMsg.includes('contraseña') || rawMsg.includes('password')) {
+        this.errorMessage = 'Contraseña incorrecta';
+      } else {
+        this.errorMessage = err?.error?.message || '❌ Error al iniciar sesión';
+      }
+      if (rawMsg.includes('verificar tu correo')) {
         this.showVerifyModal = true;
       }
+      this.loading = false;
+    },
+    complete: () => {
+      this.loading = false;
     }
   });
 }

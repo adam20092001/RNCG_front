@@ -20,7 +20,7 @@
 
 .login-left {
   flex: 1;
-  background: #1e60f4;
+  background: transparent;
   color: white;
   padding: 5rem;
   display: flex;
@@ -28,12 +28,10 @@
   justify-content: center;
   text-align: left;
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    span { font-weight: 700; }
-  }
-  p { max-width: 450px; line-height: 1.6; font-size: 1.1rem; }
+  .brand-panel { background: #0A2540; border: none; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 1.5rem 1.75rem; max-width: 480px; text-align: center; color: #ffffff; margin: 0 auto; }
+  .brand-logo { max-height: 64px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto 0.75rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35)); }
+  .welcome-title { margin: 0.35rem 0 0.25rem; color: #ffffff; text-align: center; font-weight: 800; font-size: 22px; }
+  .welcome-desc { margin: 0 0 0.25rem; color: #E5E7EB; text-align: center; font-weight: 400; font-size: 14px; line-height: 1.5; max-width: 560px; margin-inline: auto; }
 }
 
 .login-right {
@@ -51,15 +49,41 @@
     align-items: stretch;
 
     label { font-weight: 600; margin-bottom: 0.3rem; }
-    input {
-      padding: 0.8rem;
-      margin-bottom: 1.2rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
+         label { font-weight: 600; margin-bottom: 0.3rem; }
+     input {
+       padding: 12px 16px;
+       margin: 0 auto 1rem;
+       border: 1px solid #ccc;
+       border-radius: 10px;
+       font-size: 1rem;
+       width: 100%;
+       max-width: 320px;
+       box-sizing: border-box;
+       box-shadow: 0 4px 10px rgba(2,6,23,0.06);
+     }
+     input::placeholder { color: #9CA3AF; }
+     .password-field { position: relative; }
+     .password-field .eye-toggle { 
+       position: absolute; 
+       right: 8px; 
+       top: 50%; 
+       transform: translateY(-50%); 
+       background: transparent; 
+       border: none; 
+       padding: 6px; 
+       cursor: pointer; 
+       color: #6B7280; 
+       display: inline-flex; 
+       align-items: center; 
+       justify-content: center; 
+       border-radius: 8px; 
+       transition: color 0.2s ease, background-color 0.2s ease; 
+     }
+     .password-field .eye-toggle:hover { 
+       color: #14B8A6; 
+       background-color: rgba(20,184,166,0.08); 
+     }
+     .password-field input { padding-right: 2.25rem; }
 
     .options {
       display: flex;
@@ -101,6 +125,14 @@
       &:hover { background: #134dc2; }
       width: 100%;
     }
+    .login-btn:disabled { opacity: 0.7; cursor: default; }
+
+    .loader { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: rgba(11,18,32,1); border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-banner { margin-top: 1rem; background: rgba(230, 57, 70, 0.10); border: 1px solid rgba(230, 57, 70, 0.35); color: #E63946; padding: 0.9rem 1rem; border-radius: 12px; font-weight: 800; }
+    .error-fade { animation: fadeInError 220ms ease-out; }
+    @keyframes fadeInError { from { opacity: 0; transform: translateY(-2px); } to { opacity: 1; transform: translateY(0); } }
   }
 
   .register-text {
@@ -204,5 +236,6 @@
 .page-content {
   /* deja hueco arriba para el navbar fijo */
   padding-top: var(--navbar-height);
+  background: linear-gradient(to bottom, #F9FBFD, #E6F0F7);
   /* si algún día tu footer es fijo, aquí podrías hacer padding-bottom */
 }

@@ -7,6 +7,7 @@
 
   <div class="analysis-content">
     <h1>Analizar imágenes</h1>
+    <p class="subtitle">Sube una imagen endoscópica para obtener resultados asistidos por IA.</p>
     <input type="file" class="file-input" (change)="onFileSelected($event)" />
     <label for="patient-select">Selecciona un paciente:</label>
     <select id="patient-select" [(ngModel)]="selectedPatientId" required>
@@ -28,12 +29,17 @@
 
 <!-- MODAL -->
 <div class="modal-backdrop" *ngIf="showModal">
-  <div class="modal-box">
-    <h3>Analisis completado</h3>
-    <p>La imagen se cargo correctamente al sistema y se completo el analisis.</p>
+  <div class="modal-box modern-modal" role="dialog" aria-labelledby="analysis-completed-title" aria-modal="true">
+    <div class="modal-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" focusable="false" aria-hidden="true">
+        <path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.1 5.1a1 1 0 0 1-1.4 0l-2.2-2.2a1 1 0 1 1 1.4-1.4l1.5 1.5 4.4-4.4a1 1 0 1 1 1.4 1.4Z"/>
+      </svg>
+    </div>
+    <h3 id="analysis-completed-title" class="modal-title">Análisis completado</h3>
+    <p class="modal-subtitle">La imagen se cargó correctamente al sistema y se completó el análisis.</p>
     <div class="modal-actions">
-      <button class="confirm" (click)="confirmAnalysis()">Ver resultados</button>
-      <button class="cancel" (click)="closeModal()">Cargar otra imagen</button>
+      <button class="btn btn-primary" (click)="confirmAnalysis()">Ver resultados</button>
+      <button class="btn btn-outline" (click)="closeModal()">Cargar otra imagen</button>
     </div>
   </div>
 </div>

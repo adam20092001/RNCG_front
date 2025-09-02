@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-import { HomeRoutingModule } from '../modules/home/home-routing.module';
 import { NavbarAuthComponent } from './navbar-auth/navbar-auth.component';
 
 
@@ -15,8 +15,8 @@ import { NavbarAuthComponent } from './navbar-auth/navbar-auth.component';
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    RouterModule
   ],
-  exports: [NavbarComponent, FooterComponent, NavbarAuthComponent]
+  exports: [NavbarComponent, FooterComponent, NavbarAuthComponent, RouterModule]
 })
 export class SharedModule { }

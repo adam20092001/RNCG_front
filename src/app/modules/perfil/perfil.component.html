@@ -1,36 +1,45 @@
 <app-navbar></app-navbar>
 
 <div class="profile-wrapper">
-  <h1>Mi Perfil</h1>
+  <h1 class="title">Mi Perfil</h1>
 
-  <div class="profile-card" *ngIf="user">
-    <label>Nombres:</label>
+  <div class="profile-card fade-in-up" *ngIf="user">
+    <label>Nombres</label>
     <input [(ngModel)]="user.name" />
 
-    <label>Apellidos:</label>
+    <label>Apellidos</label>
     <input [(ngModel)]="user.lastname" />
 
-    <label>Correo:</label>
+    <label>Correo</label>
     <input [(ngModel)]="user.mail" disabled />
 
     <div class="actions">
-      <button (click)="updateProfile()">Guardar Cambios</button>
-      <button (click)="openResetModal(); $event.preventDefault()">Cambiar contrasena</button>
-      <button class="logout" (click)="logout()">Cerrar Sesión</button>
+      <button class="btn btn-primary" (click)="updateProfile()">Guardar Cambios</button>
+      <button class="btn btn-secondary" (click)="openResetModal(); $event.preventDefault()">Cambiar contraseña</button>
+      <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
     </div>
   </div>
 </div>
 <!-- MODAL DE RESTABLECIMIENTO -->
         <div class="modal-backdrop" *ngIf="showResetModal">
-            <div class="modal-box">
-            <h2>Restablecer Contraseña</h2>
-            <input type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" />
-            <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
+          <div class="modal-box">
+            <h2 class="modal-title">Restablecer Contraseña</h2>
+
+            <div class="modal-field">
+              <label>Correo</label>
+              <input type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" [disabled]="resetEmail && resetEmail.trim().length > 0" />
+            </div>
+
+            <div class="modal-field">
+              <label>Nueva contraseña</label>
+              <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
+            </div>
+
             <div class="modal-actions">
-                <button (click)="resetPassword()">Restablecer</button>
-                <button (click)="closeResetModal()">Cancelar</button>
+              <button class="modal-btn modal-btn-primary" (click)="resetPassword()">Restablecer</button>
+              <button class="modal-btn modal-btn-secondary" (click)="closeResetModal()">Cancelar</button>
             </div>
-            </div>
+          </div>
         </div>
 
 <app-footer></app-footer>

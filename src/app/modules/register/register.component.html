@@ -3,11 +3,11 @@
   <div class="login-container-outer">
   <div class="auth-wrapper">
       <div class="auth-left">
-        <h1>Bienvenido a <span>GastroSAI</span></h1>
-        <p>
-          Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de
-          cáncer gástrico a partir de imágenes endoscópicas.
-        </p>
+        <div class="brand-panel">
+          <img src="assets/logo.png" alt="GastroSAI" class="brand__logo" />
+          <h1>GastroSAI</h1>
+          <p class="slogan">Diagnóstico asistido por IA para clínicas.</p>
+        </div>
       </div>
     
       <div class="auth-right">
@@ -20,9 +20,9 @@
           <input name="password" type="password" [(ngModel)]="form.password" placeholder="Contraseña" required />
           <input name="confirmPassword" type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" required />           
     
-          <button type="submit">Registrarse</button>
+          <button type="submit" class="btn-primary">Registrarse</button>
           <br>
-          <button type="button" (click)="goBack()">Volver</button>
+          <button type="button" class="btn-secondary" (click)="goBack()">Volver</button>
         </form>
       </div>
     </div>

@@ -18,11 +18,13 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
       border-radius: 8px;
       overflow: hidden;
-  
+      table-layout: auto;
+
       th, td {
         padding: 1rem;
         text-align: left;
         border-bottom: 1px solid #e0e0e0;
+        vertical-align: middle;
       }
   
       thead {
@@ -31,6 +33,7 @@
   
         th {
           font-weight: 600;
+          text-align: left;
         }
       }
   
@@ -41,6 +44,7 @@
   
         td {
           vertical-align: middle;
+          text-align: left;
         }
   
         .edit, .delete {
@@ -72,6 +76,8 @@
         }
       }
     }
+    /* Centrar Acciones */
+    thead th:nth-child(6), tbody td:nth-child(6) { text-align: center; }
   
     .add-button {
       margin-top: 1.5rem;

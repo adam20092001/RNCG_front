@@ -17,26 +17,44 @@ export class LoginComponent {
   newPassword = '';
 email: string = '';
 password: string = '';
+loading: boolean = false;
+errorMessage: string = '';
+showPassword: boolean = false;
 constructor(private http: HttpClient, private router: Router) {}
-onSubmit() {
+onSubmit(form?: any) {
+  if (form && form.invalid) {
+    form.control.markAllAsTouched();
+    return;
+  }
+  this.errorMessage = '';
+  this.loading = true;
   const body = { email: this.email, password: this.password };
 
   this.http.post<any>(`${environment.apiUrl}/auth/login`, body).subscribe({
     next: (res) => {
-      //alert('✅ Inicio de sesión exitoso');
-      localStorage.setItem('user', JSON.stringify(res.user)); // 👈 Guardamos el usuario
-
-      this.router.navigate(['/home']); // o redirige a donde quieras
+      localStorage.setItem('user', JSON.stringify(res.user));
+      this.router.navigate(['/home']);
     },
     error: (err) => {
-      alert(err.error.message || '❌ Error al iniciar sesión');
-      // Si es el error de verificación
-      const msg = err.error.message
-      if (msg.includes('verificar tu correo')) {
+      const rawMsg = (err?.error?.message || '').toLowerCase();
+      if (err?.status === 401 || rawMsg.includes('contraseña') || rawMsg.includes('password')) {
+        this.errorMessage = 'Contraseña incorrecta';
+      } else {
+        this.errorMessage = err?.error?.message || '❌ Error al iniciar sesión';
+      }
+      if (rawMsg.includes('verificar tu correo')) {
         this.showVerifyModal = true;
       }
+      this.loading = false; // stop spinner and re-enable button on error
+    },
+    complete: () => {
+      this.loading = false;
     }
   });
+}
+
+togglePasswordVisibility(): void {
+  this.showPassword = !this.showPassword;
 }
 
 openResetModal() {
@@ -51,7 +69,7 @@ closeResetModal() {
 
 resetPassword(): void {
   const body = {
-    resetEmail: this.resetEmail,
+    mail: this.resetEmail,
     newPassword: this.newPassword,
   };
 

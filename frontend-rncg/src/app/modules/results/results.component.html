@@ -89,20 +89,32 @@
     </div>
     <!-- Modal para predicción validada -->
     <div class="modal-backdrop" *ngIf="modalPrediction" (click)="closeDetailModal()">
-        <div class="modal-card" (click)="$event.stopPropagation()">
-        <h2>Predicción validada</h2>
-        <img 
-            [src]="selectedImageUrlval" 
-            alt="Imagen ampliada" 
-        />
-        <p><strong>Comentario:</strong> {{ modalPrediction.comment || 'Sin comentario' }}</p>
+        <div class="modal-card validated-modal" role="dialog" aria-labelledby="validated-title" aria-modal="true" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <span class="validation-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" focusable="false" aria-hidden="true">
+                <path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.1 5.1a1 1 0 0 1-1.4 0l-2.2-2.2a1 1 0 1 1 1.4-1.4l1.5 1.5 4.4-4.4a1 1 0 1 1 1.4 1.4Z"/>
+              </svg>
+            </span>
+            <h2 id="validated-title">Predicción validada</h2>
+          </div>
+
+          <div class="image-frame">
+            <img 
+              [src]="selectedImageUrlval" 
+              alt="Imagen ampliada" 
+            />
+          </div>
+
+          <div class="comment-section">
+            <label>Comentario:</label>
+            <p class="comment-text">{{ modalPrediction.comment || 'Sin comentario' }}</p>
+          </div>
     
-        <div class="modal-actions">
-            <button (click)="closeDetailModal()">Cerrar</button>
-            <button class="unvalidate-btn" (click)="unvalidatePrediction(modalPrediction.id)">
-            Desvalidar
-            </button>
-        </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline-gray" (click)="closeDetailModal()">Cerrar</button>
+            <button class="btn btn-warning" (click)="unvalidatePrediction(modalPrediction.id)">Desvalidar</button>
+          </div>
         </div>
     </div>
   

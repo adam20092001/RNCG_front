@@ -3,40 +3,53 @@
 <div class="login-container-outer">
 <div class="login-container">
     <div class="login-left">
-      <h1>Bienvenido a <span>GastroSAI</span></h1>
-      <p>
-        Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de 
-        cáncer gástrico a partir de imágenes endoscópicas.
-      </p>
+      <div class="brand-panel">
+        <img src="assets/logo.png" alt="GastroSAI" class="brand-logo" />
+        <h2 class="welcome-title">Bienvenido</h2>
+        <p class="welcome-desc">Sistema de soporte diagnóstico basado en inteligencia artificial para detección temprana de cáncer gástrico a partir de imágenes endoscópicas.</p>
+      </div>
     </div>
   
     <div class="login-right">
       <h2>Iniciar Sesión</h2>
-  
-      <form (ngSubmit)="onSubmit()">
+
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
         <label for="email">Correo Electrónico</label>
-        <input type="email" [(ngModel)]="email" name="email" required placeholder="Ingrese su correo" />
-  
+        <input type="email" [(ngModel)]="email" name="email" required email placeholder="Ingrese su correo" />
+        <div class="field-hint" *ngIf="f.submitted && (!email || !f.controls['email']?.valid)">
+          Ingrese un correo válido.
+        </div>
+
         <label for="password">Contraseña</label>
-        <input type="password" [(ngModel)]="password" name="password" required placeholder="Ingrese su contraseña" />
-  
+        <div class="password-field">
+          <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required minlength="6" placeholder="Ingrese su contraseña" />
+          <button type="button" class="eye-toggle" (mousedown)="$event.preventDefault()" (click)="togglePasswordVisibility()" [attr.aria-pressed]="showPassword" title="Mostrar/Ocultar contraseña" aria-label="Mostrar/Ocultar contraseña">
+            <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+          </button>
+        </div>
+        <div class="field-hint" *ngIf="f.submitted && (!password || password.length < 6)">
+          La contraseña debe tener al menos 6 caracteres.
+        </div>
+
         <div class="options">
           <label><input type="checkbox" /> Recuérdame</label>
-        </div>
-        <div class="options">
           <a href="#" (click)="openResetModal(); $event.preventDefault()">¿Olvidaste tu contraseña?</a>
         </div>
-        <button type="submit" class="login-btn">Iniciar sesión</button>
+        <button type="submit" class="login-btn" [disabled]="loading">
+          <span *ngIf="!loading">Iniciar sesión</span>
+          <span *ngIf="loading" class="loader"></span>
+        </button>
+        <div class="error-banner error-fade" *ngIf="errorMessage">{{ errorMessage }}</div>
       </form>
         <!-- MODAL DE RESTABLECIMIENTO -->
         <div class="modal-backdrop" *ngIf="showResetModal">
             <div class="modal-box">
-            <h2>Restablecer Contraseña</h2>
-            <input type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" />
-            <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
+            <h2 class="modal-title">Restablecer Contraseña</h2>
+            <input class="modal-input" type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" />
+            <input class="modal-input" type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
             <div class="modal-actions">
-                <button (click)="resetPassword()">Restablecer</button>
-                <button (click)="closeResetModal()">Cancelar</button>
+                <button class="btn-primary" (click)="resetPassword()">Restablecer</button>
+                <button class="btn-secondary" (click)="closeResetModal()">Cancelar</button>
             </div>
             </div>
         </div>

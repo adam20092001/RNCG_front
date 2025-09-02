@@ -1,95 +1,160 @@
 <app-navbar></app-navbar>
 <div class="patients-wrapper">
-  <h1>Gestión de Pacientes</h1>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Edad</th>
-        <th>Sexo</th>
-        <th>DNI</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-        <!-- ✅ Mostrar mensaje si no hay resultados -->
-        <tr *ngIf="patients.length === 0">
-            <td colspan="9" style="text-align: center; padding: 1rem;">
-            No se encontraron pacientes para mostrar.
-            </td>
-        </tr>
-      <tr *ngFor="let patient of patients">
-        <td>{{ patient.name }}</td>
-        <td>{{ patient.lastname }}</td>
-        <td>{{ patient.age }}</td>
-        <td>{{ patient.sex }}</td>
-        <td>{{ patient.dni }}</td>
-        <td>
-          <button class="edit" (click)="openEditModal(patient)">Editar</button>
-          <button class="delete" (click)="deletePatient(patient.id)">Eliminar</button>
-          <button class="view" (click)="verResultados(patient.id)">Ver resultados</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <button class="add-button" (click)="openModal()">+ Agregar nuevo paciente</button>
-  <!-- Modal de Nuevo Paciente -->
-<div class="modal-backdrop" *ngIf="showModal">
-    <div class="modal-box">
-      <h2>Agregar nuevo paciente</h2>
-      <form (ngSubmit)="createPatient()" #patientForm="ngForm">
-        <input type="text" placeholder="Nombre" [(ngModel)]="newPatient.name" name="name" required />
-        <input type="text" placeholder="Apellido" [(ngModel)]="newPatient.lastname" name="lastname" required />
-        <input type="number" placeholder="Edad" [(ngModel)]="newPatient.age" name="age" required />
-        <select [(ngModel)]="newPatient.sex" name="sex" required>
-          <option value="" disabled selected>Sexo</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
-        </select>
-        <input type="text" placeholder="DNI" [(ngModel)]="newPatient.dni" name="dni" required />
-        <div class="modal-actions">
-          <button type="submit">Guardar</button>
-          <button type="button" (click)="closeModal()">Cancelar</button>
-        </div>
-      </form>
+  <div class="header-row">
+    <h1><i class="fa-solid fa-user-doctor"></i> Gestión de Pacientes</h1>
+    <div class="actions">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar paciente..." [(ngModel)]="searchText" />
+      </div>
+      <button class="add-button" (click)="openModal()"><i class="fa-solid fa-user-plus"></i> Agregar paciente</button>
     </div>
   </div>
 
+  <div class="table-card">
+    <table class="patients-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Sexo</th>
+          <th>DNI</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="patients.length === 0">
+          <td colspan="6">
+            <div class="empty-state">
+              <i class="fa-solid fa-user-plus"></i>
+              <h3>No se encontraron pacientes registrados.</h3>
+              <p>Agrega un nuevo paciente para comenzar.</p>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let patient of filteredPatients">
+          <td>{{ patient.name }}</td>
+          <td>{{ patient.lastname }}</td>
+          <td>{{ patient.age }}</td>
+          <td>{{ patient.sex }}</td>
+          <td>{{ patient.dni }}</td>
+          <td class="row-actions">
+            <button class="icon" title="Editar" (click)="openEditModal(patient)"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient.id)"><i class="fa-solid fa-trash"></i></button>
+            <button class="icon" title="Ver resultados" (click)="verResultados(patient.id)"><i class="fa-solid fa-eye"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Modal de Nuevo Paciente -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-box add-patient">
+    <h2 class="modal-title">Agregar nuevo paciente</h2>
+    <div class="title-underline" aria-hidden="true"></div>
+    <form (ngSubmit)="createPatient()" #patientForm="ngForm" class="modal-form">
+      <div class="field">
+        <label for="name">Nombre</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-user"></i>
+          <input id="name" type="text" placeholder="Nombre" [(ngModel)]="newPatient.name" name="name" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="lastname">Apellido</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-id-badge"></i>
+          <input id="lastname" type="text" placeholder="Apellido" [(ngModel)]="newPatient.lastname" name="lastname" required />
+        </div>
+      </div>
+
+      <div class="field two-col">
+        <div class="field">
+          <label for="age">Edad</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-calendar"></i>
+            <input id="age" type="number" placeholder="Edad" [(ngModel)]="newPatient.age" name="age" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="sex">Sexo</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-venus-mars"></i>
+            <select id="sex" [(ngModel)]="newPatient.sex" name="sex" required>
+              <option value="" disabled selected>Selecciona</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="dni">DNI</label>
+        <div class="input-wrap">
+          <i class="fa-regular fa-address-card"></i>
+          <input id="dni" type="text" placeholder="DNI" [(ngModel)]="newPatient.dni" name="dni" required />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
   <!-- MODAL DE EDICIÓN DE PACIENTE -->
 <div class="modal-backdrop" *ngIf="showEditModal">
-    <div class="modal-box">
+    <div class="modal-box edit-patient">
       <h2>Editar Paciente</h2>
+      <div class="title-underline" aria-hidden="true"></div>
   
       <div class="form-group">
         <label>Nombre:</label>
-        <input [(ngModel)]="editPatient.name" placeholder="Nombre" />
+        <div class="input-wrap">
+          <i class="fa-solid fa-user"></i>
+          <input [(ngModel)]="editPatient.name" placeholder="Nombre" />
+        </div>
       </div>
   
       <div class="form-group">
         <label>Apellido:</label>
-        <input [(ngModel)]="editPatient.lastname" placeholder="Apellido" />
+        <div class="input-wrap">
+          <i class="fa-regular fa-id-badge"></i>
+          <input [(ngModel)]="editPatient.lastname" placeholder="Apellido" />
+        </div>
       </div>
   
       <div class="form-group">
         <label>Edad:</label>
-        <input type="number" [(ngModel)]="editPatient.age" placeholder="Edad" />
+        <div class="input-wrap">
+          <i class="fa-regular fa-calendar"></i>
+          <input type="number" [(ngModel)]="editPatient.age" placeholder="Edad" />
+        </div>
       </div>
   
       <div class="form-group">
         <label>Sexo:</label>
-        <select [(ngModel)]="editPatient.sex">
-          <option value="">Seleccionar</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
-        </select>
+        <div class="input-wrap">
+          <i class="fa-solid fa-venus-mars"></i>
+          <select [(ngModel)]="editPatient.sex">
+            <option value="">Seleccionar</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
       </div>
   
       <div class="form-group">
         <label>DNI:</label>
-        <input [(ngModel)]="editPatient.dni" placeholder="DNI" />
+        <div class="input-wrap">
+          <i class="fa-regular fa-address-card"></i>
+          <input [(ngModel)]="editPatient.dni" placeholder="DNI" />
+        </div>
       </div>
   
       <div class="modal-actions">

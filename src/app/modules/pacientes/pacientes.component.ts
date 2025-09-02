@@ -13,6 +13,7 @@ export class PacientesComponent implements OnInit {
   showModal = false;
   showEditModal = false;
   editPatient: any = null;
+  searchText: string = '';
   newPatient = {
     name: '',
     lastname: '',
@@ -45,6 +46,26 @@ export class PacientesComponent implements OnInit {
       console.error('❌ Error al cargar pacientes:', err);
     }
   });
+  }
+
+  get filteredPatients() {
+    const text = this.normalizeText(this.searchText);
+    if (!text) return this.patients;
+    return this.patients.filter(p => {
+      const name = this.normalizeText(p.name);
+      const lastname = this.normalizeText(p.lastname);
+      const dni = this.normalizeText(p.dni);
+      return name.includes(text) || lastname.includes(text) || dni.includes(text);
+    });
+  }
+
+  private normalizeText(value: any): string {
+    return (value || '')
+      .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
   }
 
   deletePatient(id: number) {

@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ResultsComponent implements OnInit {
   predictions: any[] = [];
+  tempSearchText: string = '';
+  searchText: string = '';
   selectedImageUrl: string | null = null;
    selectedImageUrlval: string | null = null;
   modalPrediction: any = null;
@@ -18,6 +20,9 @@ export class ResultsComponent implements OnInit {
   environment = environment;
 
   userId: number | null = null;
+  private searchDebounce?: any;
+  pageIndex: number = 0;
+  pageSize: number = 10;
 
   constructor(private http: HttpClient, public route: ActivatedRoute, private router: Router) {}
 
@@ -37,6 +42,54 @@ export class ResultsComponent implements OnInit {
     this.fetchPredictions();
     this.loadPredictionsFromRoute();     
   }
+
+  onSearchChange(value: string) {
+    if (this.searchDebounce) clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchText = value || '';
+      this.pageIndex = 0; // reset to first page on new search
+    }, 300);
+  }
+
+  private normalizeText(v: any): string {
+    return (v || '')
+      .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  get filteredResults() {
+    const t = this.normalizeText(this.searchText);
+    if (!t) return this.predictions;
+    return this.predictions.filter(p => {
+      const name = this.normalizeText(p?.patient?.name);
+      const lastname = this.normalizeText(p?.patient?.lastname);
+      const dni = this.normalizeText(p?.patient?.dni);
+      return name.includes(t) || lastname.includes(t) || dni.includes(t);
+    });
+  }
+
+  get totalResults(): number {
+    return this.filteredResults.length;
+  }
+
+  get startIndex(): number {
+    return this.totalResults === 0 ? 0 : this.pageIndex * this.pageSize + 1;
+  }
+
+  get endIndex(): number {
+    return Math.min(this.totalResults, (this.pageIndex + 1) * this.pageSize);
+  }
+
+  get pagedResults() {
+    const start = this.pageIndex * this.pageSize;
+    return this.filteredResults.slice(start, start + this.pageSize);
+  }
+
+  nextPage() { if (this.endIndex < this.totalResults) this.pageIndex++; }
+  prevPage() { if (this.pageIndex > 0) this.pageIndex--; }
 
   openImageModal(imageUrl: string) {
     this.selectedImageUrl = imageUrl;
@@ -126,6 +179,9 @@ export class ResultsComponent implements OnInit {
   } 
   verTodos(): void {
     this.selectedPatientId = '';
+    this.tempSearchText = '';
+    this.searchText = '';
+    this.pageIndex = 0;
   
     this.router.navigate(['/resultados']).then(() => {
       this.loadPredictionsFromRoute(); // 👈 recarga lógica explícitamente
