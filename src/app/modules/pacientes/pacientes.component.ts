@@ -13,15 +13,17 @@ export class PacientesComponent implements OnInit {
   showModal = false;
   showEditModal = false;
   editPatient: any = null;
+  deletePatiente:any=null;
   searchText: string = '';
   newPatient = {
     name: '',
     lastname: '',
     age: null,
     sex: '',
-    dni: ''
+    dni: '',
+    disable: false
   };
-  
+
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -39,8 +41,7 @@ export class PacientesComponent implements OnInit {
     }
     this.http.get<any[]>(`${environment.apiUrl}/patients/user/${userId}`).subscribe({
     next: data => {
-      this.patients = data;
-      console.log('📥 Pacientes cargados solo del usuario:', data);
+     this.patients = (data || []).filter(p => !p.disable);
     },
     error: err => {
       console.error('❌ Error al cargar pacientes:', err);
@@ -68,17 +69,21 @@ export class PacientesComponent implements OnInit {
       .trim();
   }
 
-  deletePatient(id: number) {
+  deletePatient(patiente: any) {
+    this.deletePatiente=patiente;
+    this.deletePatiente.disable=true;
     if (confirm('¿Estás seguro de que deseas eliminar este paciente?')) {
-      this.http.delete(`${environment.apiUrl}/patients/${id}`).subscribe({
+      this.http.put(`${environment.apiUrl}/patients/${this.deletePatiente.id}`,this.deletePatiente).subscribe({
         next: () => {
           this.loadPatients();
         },
         error: err => {
           console.error('❌ Error al eliminar paciente:', err);
         }
+
       });
     }
+   // this.deletePatiente=null;
   }
 
   openModal(): void {
@@ -86,17 +91,19 @@ export class PacientesComponent implements OnInit {
   }
   closeModal(): void {
     this.showModal = false;
-    this.newPatient = { name: '', lastname: '', age: null, sex: '', dni: '' };
+    this.newPatient = { name: '', lastname: '', age: null, sex: '', dni: '', disable:false };
   }
   createPatient(): void {
     const user = JSON.parse(localStorage.getItem('user')!);
     const userId = user?.id;
-  
+
     if (!userId) {
       alert('⚠️ Usuario no identificado.');
       return;
     }
-  
+
+this.newPatient.disable=false;
+
     this.http.post(`${environment.apiUrl}/patients`, { ...this.newPatient, user: { id: userId } }).subscribe({
       next: () => {
         //alert('✅ Paciente registrado correctamente');
@@ -109,17 +116,17 @@ export class PacientesComponent implements OnInit {
       }
     });
   }
-  
+
   openEditModal(patient: any) {
     this.editPatient = { ...patient }; // copia los datos del paciente
     this.showEditModal = true;
   }
-  
+
   closeEditModal() {
     this.showEditModal = false;
     this.editPatient = null;
   }
-  
+
   updatePatient() {
     this.http.put(`${environment.apiUrl}/patients/${this.editPatient.id}`, this.editPatient).subscribe({
       next: () => {

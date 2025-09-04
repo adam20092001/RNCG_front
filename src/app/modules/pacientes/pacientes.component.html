@@ -41,7 +41,7 @@
           <td>{{ patient.dni }}</td>
           <td class="row-actions">
             <button class="icon" title="Editar" (click)="openEditModal(patient)"><i class="fa-solid fa-pen"></i></button>
-            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient.id)"><i class="fa-solid fa-trash"></i></button>
+            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient)"><i class="fa-solid fa-trash"></i></button>
             <button class="icon" title="Ver resultados" (click)="verResultados(patient.id)"><i class="fa-solid fa-eye"></i></button>
           </td>
         </tr>
@@ -112,7 +112,7 @@
     <div class="modal-box edit-patient">
       <h2>Editar Paciente</h2>
       <div class="title-underline" aria-hidden="true"></div>
-  
+
       <div class="form-group">
         <label>Nombre:</label>
         <div class="input-wrap">
@@ -120,7 +120,7 @@
           <input [(ngModel)]="editPatient.name" placeholder="Nombre" />
         </div>
       </div>
-  
+
       <div class="form-group">
         <label>Apellido:</label>
         <div class="input-wrap">
@@ -128,7 +128,7 @@
           <input [(ngModel)]="editPatient.lastname" placeholder="Apellido" />
         </div>
       </div>
-  
+
       <div class="form-group">
         <label>Edad:</label>
         <div class="input-wrap">
@@ -136,7 +136,7 @@
           <input type="number" [(ngModel)]="editPatient.age" placeholder="Edad" />
         </div>
       </div>
-  
+
       <div class="form-group">
         <label>Sexo:</label>
         <div class="input-wrap">
@@ -148,7 +148,7 @@
           </select>
         </div>
       </div>
-  
+
       <div class="form-group">
         <label>DNI:</label>
         <div class="input-wrap">
@@ -156,14 +156,14 @@
           <input [(ngModel)]="editPatient.dni" placeholder="DNI" />
         </div>
       </div>
-  
+
       <div class="modal-actions">
         <button class="cancel" (click)="closeEditModal()">Cancelar</button>
         <button class="confirm" (click)="updatePatient()">Actualizar</button>
       </div>
     </div>
   </div>
-  
-  
+
+
 </div>
 <app-footer></app-footer>
