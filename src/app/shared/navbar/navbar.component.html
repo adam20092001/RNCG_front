@@ -16,19 +16,25 @@
 
   <!-- ICONOS DERECHA -->
   <div class="navbar-icons">
-    <button class="icon-btn bell" aria-label="Notificaciones">
+    <button class="icon-btn bell" aria-label="Notificaciones" (click)="toggleNotifications()">
       <i class="fa-solid fa-bell" aria-hidden="true"></i>
-      <span class="badge-dot" *ngIf="notificationCount > 0" aria-hidden="true"></span>
+      <span class="badge-dot" *ngIf="notificationCount > 0" aria-hidden="true"> {{ notificationCount }}</span>
     </button>
+
+    <!-- DROPDOWN DE NOTIFICACIONES -->
+    <div class="notifications-dropdown" *ngIf="showNotifications">
+      <div *ngIf="notifications.length === 0" class="empty">
+        No tienes notificaciones
+      </div>
+      <div *ngFor="let n of notifications" class="notification-item">
+        <b [ngClass]="{ 'unread': !n.isRead }">{{ n.title }}</b>
+        <p>{{ n.message }}</p>
+        <small>{{ n.createdAt | date:'short' }}</small>
+      </div>
+    </div>
     <div class="profile-wrapper" #profileWrapper>
-      <button type="button"
-              class="icon-btn profile"
-              [attr.aria-expanded]="isProfileMenuOpen"
-              aria-haspopup="menu"
-              [attr.aria-controls]="profileMenuId"
-              aria-label="Perfil"
-              (click)="toggleProfileMenu($event)"
-              #profileButton>
+      <button type="button" class="icon-btn profile" [attr.aria-expanded]="isProfileMenuOpen" aria-haspopup="menu"
+        [attr.aria-controls]="profileMenuId" aria-label="Perfil" (click)="toggleProfileMenu($event)" #profileButton>
         <ng-container *ngIf="userAvatarUrl && userAvatarUrl.length; else profileIcon">
           <img class="avatar" [src]="userAvatarUrl" alt="" />
         </ng-container>
@@ -36,28 +42,27 @@
           <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
         </ng-template>
       </button>
-
-      <div class="profile-menu" *ngIf="isProfileMenuOpen"
-           [id]="profileMenuId"
-           role="menu"
-           [attr.aria-labelledby]="profileMenuButtonId"
-           (keydown)="onMenuKeydown($event)"
-           #menuContainer>
-        <a class="menu-item" role="menuitem" tabindex="0" routerLink="/perfil" (click)="closeProfileMenu()" #menuItem>Mi Perfil</a>
+      <div class="profile-menu" *ngIf="isProfileMenuOpen" [id]="profileMenuId" role="menu"
+        [attr.aria-labelledby]="profileMenuButtonId" (keydown)="onMenuKeydown($event)" #menuContainer>
+        <a class="menu-item" role="menuitem" tabindex="0" routerLink="/perfil" (click)="closeProfileMenu()" #menuItem>Mi
+          Perfil</a>
         <div class="menu-divider" role="separator" aria-hidden="true"></div>
-        <button type="button" class="menu-item danger" role="menuitem" tabindex="0" (click)="logout(); closeProfileMenu()" #menuItem>Cerrar Sesión</button>
+        <button type="button" class="menu-item danger" role="menuitem" tabindex="0"
+          (click)="logout(); closeProfileMenu()" #menuItem>Cerrar Sesión</button>
       </div>
     </div>
   </div>
 
   <!-- BOTÓN HAMBURGER -->
-  <button class="navbar-toggle" (click)="toggleMenu()" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen" [attr.aria-controls]="'mobilePanel'">
+  <button class="navbar-toggle" (click)="toggleMenu()" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen"
+    [attr.aria-controls]="'mobilePanel'">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- PANEL FULLSCREEN en móvil -->
-<div id="mobilePanel" class="mobile-panel" [class.open]="isMenuOpen" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
+<div id="mobilePanel" class="mobile-panel" [class.open]="isMenuOpen" role="dialog" aria-modal="true"
+  aria-labelledby="mobileMenuTitle">
   <ul>
     <h2 id="mobileMenuTitle" class="sr-only">Menú de navegación</h2>
     <li><a routerLink="/home" (click)="toggleMenu()">Home</a></li>

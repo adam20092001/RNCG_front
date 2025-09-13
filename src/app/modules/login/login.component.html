@@ -46,9 +46,8 @@
             <div class="modal-box">
             <h2 class="modal-title">Restablecer Contraseña</h2>
             <input class="modal-input" type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" />
-            <input class="modal-input" type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
             <div class="modal-actions">
-                <button class="btn-primary" (click)="resetPassword()">Restablecer</button>
+                <button class="btn-primary" (click)="forgotPassword()">Restablecer</button>
                 <button class="btn-secondary" (click)="closeResetModal()">Cancelar</button>
             </div>
             </div>

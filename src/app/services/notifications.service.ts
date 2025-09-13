@@ -1,37 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-const STORAGE_KEY = 'notification_count';
+export interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+}
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class NotificationsService {
-  private countSubject: BehaviorSubject<number>;
+   private apiUrl = `${environment.apiUrl}/notifications`; // tu backend NestJS
+  
+   //Estado compartido
+  private notificationCountSubject = new BehaviorSubject<number>(0);
+  notificationCount$ = this.notificationCountSubject.asObservable();
 
-  constructor() {
-    const stored = Number.parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
-    this.countSubject = new BehaviorSubject<number>(Number.isFinite(stored) ? stored : 0);
+  private pendingCountSubject = new BehaviorSubject<number>(0);
+  pendingCount$ = this.pendingCountSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  getByUser(userId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.apiUrl}?userId=${userId}`);
   }
 
-  getCount$(): Observable<number> {
-    return this.countSubject.asObservable();
+  /* markAsRead(id: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/read`, {});
+  } */
+   // Actualizar los contadores globales
+  setNotificationCount(count: number) {
+    this.notificationCountSubject.next(count);
   }
 
-  getCount(): number {
-    return this.countSubject.value;
-  }
-
-  setCount(newCount: number): void {
-    const safe = Math.max(0, Math.floor(newCount));
-    localStorage.setItem(STORAGE_KEY, String(safe));
-    this.countSubject.next(safe);
-  }
-
-  increment(by: number = 1): void {
-    this.setCount(this.getCount() + Math.max(1, Math.floor(by)));
-  }
-
-  clear(): void {
-    this.setCount(0);
+  setPendingCount(count: number) {
+    this.pendingCountSubject.next(count);
   }
 }
 

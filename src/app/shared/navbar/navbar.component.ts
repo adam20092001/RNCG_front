@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NotificationsService } from '../../services/notifications.service';
+import { NotificationsService, Notification } from '../../services/notifications.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,12 +9,16 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
-  notificationCount = 3; // example; replace with real data when available
   userInitials: string = '';
   userAvatarUrl: string = '';
   isProfileMenuOpen = false;
   profileMenuId = 'profileMenu';
   profileMenuButtonId = 'profileMenuButton';
+  //notificacion
+  notifications: Notification[] = [];
+  notificationCount = 0; // example; replace with real data when available
+  showNotifications = false;
+  userId!: number;
 
   @ViewChildren('menuItem') menuItems!: QueryList<ElementRef<HTMLElement>>;
 
@@ -29,20 +33,38 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private notificationsService: NotificationsService, private elementRef: ElementRef, private router: Router) {}
+  constructor(private notificationsService: NotificationsService, private elementRef: ElementRef, private router: Router) { }
 
   ngOnInit() {
     // Compute initials from a hypothetical user name; replace when integrating auth data
     const storedName = localStorage.getItem('user_name') || '';
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      this.userId = user.id;
+    }
     this.userInitials = this.computeInitials(storedName);
     this.userAvatarUrl = localStorage.getItem('user_avatar_url') || '';
 
-    this.notificationsService.getCount$().subscribe((count) => {
-      this.notificationCount = count;
+    this.notificationsService.getByUser(this.userId).subscribe((data) => {
+      this.notifications = data;
+      this.notificationCount = data.filter((n) => !n.isRead).length;// contador de no leidas
+      this.notificationsService.setNotificationCount(this.notificationCount);//exportar global 
     });
   }
+  toggleNotifications() {
+    this.showNotifications = !this.showNotifications;
+  }
+  /*   markAsRead(id: number) {
+      this.notificationsService.markAsRead(id).subscribe(() => {
+        this.notifications = this.notifications.map((n) =>
+          n.id === id ? { ...n, isRead: true } : n
+        );
+        this.notificationCount = this.notifications.filter((n) => !n.isRead).length;
+      });
+    } */
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   toggleProfileMenu(event?: MouseEvent) {
     event?.stopPropagation();
@@ -116,3 +138,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return (first + last).toUpperCase();
   }
 }
+
+

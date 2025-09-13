@@ -245,3 +245,44 @@
   }
   .service-text h2 { font-size: 1.5rem; }
 }
+.alert-banner {
+  background: #ffe5e5;
+  border: 1px solid #ff4d4d;
+  color: #900;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.summary-box {
+  margin: 15px 0;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.summary.warning {
+  background: #fff5e5;
+  border: 1px solid orange;
+  color: #b36b00;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.summary.critical {
+  background: #ffe5e5;
+  border: 1px solid red;
+  color: #900;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.summary.empty {
+  text-align: center;
+  color: #555;
+  font-style: italic;
+}
+

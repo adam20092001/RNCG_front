@@ -1,15 +1,31 @@
 <app-navbar></app-navbar>
 <div class="page-content">
-<div class="home-container">
+  <div class="home-container">
+    <!-- Resumen de notificaciones clínicas -->
+    <div class="summary-box">
+      <div *ngIf="summary.pending > 0" class="summary warning">
+        ⚠️ Tienes {{ summary.pending }} resultados pendientes de validación.
+      </div>
+      <div *ngIf="summary.notifications > 0" class="summary critical">
+        🔴 Tienes {{ summary.notifications }} notificaciones clínicas sin leer.
+      </div>
+      <div *ngIf="summary.pending === 0 && summary.notifications === 0" class="summary empty">
+        No existen notificaciones recientes.
+      </div>
+    </div>
+
     <section class="hero">
       <div class="hero-content container">
         <div class="hero-grid">
           <div class="hero-copy">
             <h1 class="fade-up-1">Bienvenido a <span class="brand-gradient">GastroSAI</span></h1>
-            <p class="fade-up-2">Diagnóstico asistido por IA para imágenes endoscópicas. Rápido, confiable y diseñado para clínicas.</p>
+            <p class="fade-up-2">Diagnóstico asistido por IA para imágenes endoscópicas. Rápido, confiable y diseñado
+              para clínicas.</p>
             <div class="hero-ctas fade-up-3">
-              <a class="btn primary btn-lg" routerLink="/analysis"><i class="fa-solid fa-magnifying-glass-chart"></i> Comenzar análisis</a>
-              <a class="btn ghost btn-lg" routerLink="/resultados"><i class="fa-solid fa-chart-column"></i> Ver resultados</a>
+              <a class="btn primary btn-lg" routerLink="/analysis"><i class="fa-solid fa-magnifying-glass-chart"></i>
+                Comenzar análisis</a>
+              <a class="btn ghost btn-lg" routerLink="/resultados"><i class="fa-solid fa-chart-column"></i> Ver
+                resultados</a>
             </div>
           </div>
           <div class="hero-visual fade-up-3" aria-hidden="true">
