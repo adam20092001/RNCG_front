@@ -40,75 +40,79 @@
           <td>{{ patient.sex }}</td>
           <td>{{ patient.dni }}</td>
           <td class="row-actions">
-            <button class="icon" title="Editar" (click)="openEditModal(patient)"><i class="fa-solid fa-pen"></i></button>
-            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient)"><i class="fa-solid fa-trash"></i></button>
-            <button class="icon" title="Ver resultados" (click)="verResultados(patient.id)"><i class="fa-solid fa-eye"></i></button>
+            <button class="icon" title="Editar" (click)="openEditModal(patient)"><i
+                class="fa-solid fa-pen"></i></button>
+            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient)"><i
+                class="fa-solid fa-trash"></i></button>
+            <button class="icon" title="Ver resultados" (click)="verResultados(patient.id)"><i
+                class="fa-solid fa-eye"></i></button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
   <!-- Modal de Nuevo Paciente -->
-<div class="modal-backdrop" *ngIf="showModal">
-  <div class="modal-box add-patient">
-    <h2 class="modal-title">Agregar nuevo paciente</h2>
-    <div class="title-underline" aria-hidden="true"></div>
-    <form (ngSubmit)="createPatient()" #patientForm="ngForm" class="modal-form">
-      <div class="field">
-        <label for="name">Nombre</label>
-        <div class="input-wrap">
-          <i class="fa-solid fa-user"></i>
-          <input id="name" type="text" placeholder="Nombre" [(ngModel)]="newPatient.name" name="name" required />
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="lastname">Apellido</label>
-        <div class="input-wrap">
-          <i class="fa-regular fa-id-badge"></i>
-          <input id="lastname" type="text" placeholder="Apellido" [(ngModel)]="newPatient.lastname" name="lastname" required />
-        </div>
-      </div>
-
-      <div class="field two-col">
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box add-patient">
+      <h2 class="modal-title">Agregar nuevo paciente</h2>
+      <div class="title-underline" aria-hidden="true"></div>
+      <form #patientForm="ngForm" (ngSubmit)="createPatient(patientForm)"  class="modal-form" novalidate>
         <div class="field">
-          <label for="age">Edad</label>
+          <label for="name">Nombre</label>
           <div class="input-wrap">
-            <i class="fa-regular fa-calendar"></i>
-            <input id="age" type="number" placeholder="Edad" [(ngModel)]="newPatient.age" name="age" required />
+            <i class="fa-solid fa-user"></i>
+            <input id="name" type="text" placeholder="Nombre" [(ngModel)]="newPatient.name" name="name" required   (keypress)="allowOnlyLetters($event)"/>
           </div>
         </div>
         <div class="field">
-          <label for="sex">Sexo</label>
+          <label for="lastname">Apellido</label>
           <div class="input-wrap">
-            <i class="fa-solid fa-venus-mars"></i>
-            <select id="sex" [(ngModel)]="newPatient.sex" name="sex" required>
-              <option value="" disabled selected>Selecciona</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
-            </select>
+            <i class="fa-regular fa-id-badge"></i>
+            <input id="lastname" type="text" placeholder="Apellido" [(ngModel)]="newPatient.lastname" name="lastname"
+              required   (keypress)="allowOnlyLetters($event)"/>
           </div>
         </div>
-      </div>
-
-      <div class="field">
-        <label for="dni">DNI</label>
-        <div class="input-wrap">
-          <i class="fa-regular fa-address-card"></i>
-          <input id="dni" type="text" placeholder="DNI" [(ngModel)]="newPatient.dni" name="dni" required />
+        <div class="field two-col">
+          <div class="field">
+            <label for="age">Edad</label>
+            <div class="input-wrap">
+              <i class="fa-regular fa-calendar"></i>
+              <input id="age" type="number" placeholder="Edad" [(ngModel)]="newPatient.age" name="age" required  (keypress)="allowOnlyNumbers($event)"/>
+            </div>
+          </div>
+          <div class="field">
+            <label for="sex">Sexo</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-venus-mars"></i>
+              <select id="sex" [(ngModel)]="newPatient.sex" name="sex" required>
+                <option value="" disabled selected>Selecciona</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="modal-actions">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
-      </div>
-    </form>
+        <div class="field">
+          <label for="dni">DNI</label>
+          <div class="input-wrap">
+            <i class="fa-regular fa-address-card"></i>
+            <input id="dni" type="text" placeholder="DNI" [(ngModel)]="newPatient.dni" name="dni" required  (keypress)="allowOnlyNumbers($event)"/>
+          </div>
+        </div>
+        <div class="field-hint" *ngIf="patientForm.submitted && (missingFields.length > 0) ">
+          ⚠️ Campos obligatorios faltantes: {{ missingFields.join(', ') }}
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
   <!-- MODAL DE EDICIÓN DE PACIENTE -->
-<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal-backdrop" *ngIf="showEditModal">
     <div class="modal-box edit-patient">
       <h2>Editar Paciente</h2>
       <div class="title-underline" aria-hidden="true"></div>
@@ -117,7 +121,7 @@
         <label>Nombre:</label>
         <div class="input-wrap">
           <i class="fa-solid fa-user"></i>
-          <input [(ngModel)]="editPatient.name" placeholder="Nombre" />
+          <input [(ngModel)]="editPatient.name" placeholder="Nombre" required (keypress)="allowOnlyLetters($event)"/>
         </div>
       </div>
 
@@ -125,7 +129,7 @@
         <label>Apellido:</label>
         <div class="input-wrap">
           <i class="fa-regular fa-id-badge"></i>
-          <input [(ngModel)]="editPatient.lastname" placeholder="Apellido" />
+          <input [(ngModel)]="editPatient.lastname" placeholder="Apellido" required (keypress)="allowOnlyLetters($event)"/>
         </div>
       </div>
 
@@ -133,7 +137,7 @@
         <label>Edad:</label>
         <div class="input-wrap">
           <i class="fa-regular fa-calendar"></i>
-          <input type="number" [(ngModel)]="editPatient.age" placeholder="Edad" />
+          <input type="number" [(ngModel)]="editPatient.age" placeholder="Edad"  (keypress)="allowOnlyNumbers($event)"/>
         </div>
       </div>
 
@@ -153,8 +157,11 @@
         <label>DNI:</label>
         <div class="input-wrap">
           <i class="fa-regular fa-address-card"></i>
-          <input [(ngModel)]="editPatient.dni" placeholder="DNI" />
+          <input type="number" [(ngModel)]="editPatient.dni" placeholder="DNI" required  (keypress)="allowOnlyNumbers($event)" />
         </div>
+      </div>
+      <div class="field-hint" *ngIf="missingFields.length > 0">
+        ⚠️ Campos obligatorios faltantes: {{ missingFields.join(', ') }}
       </div>
 
       <div class="modal-actions">

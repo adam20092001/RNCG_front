@@ -259,3 +259,14 @@
     max-width: 100%;
   }
 }
+.field-hint {
+  color: #333333; /* rojo Bootstrap-like */
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.field-hint::before {
+  margin-right: 5px;
+}

@@ -38,7 +38,7 @@ export class LoginComponent {
       error: (err) => {
         const rawMsg = (err?.error?.message || '').toLowerCase();
         if (err?.status === 401 || rawMsg.includes('contraseña') || rawMsg.includes('password')) {
-          this.errorMessage = 'Contraseña incorrecta';
+          this.errorMessage = 'Credenciales inválidas. Intente nuevamente.';
         } else {
           this.errorMessage = err?.error?.message || '❌ Error al iniciar sesión';
         }

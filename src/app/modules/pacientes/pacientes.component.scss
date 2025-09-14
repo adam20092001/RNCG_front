@@ -326,4 +326,14 @@
 @keyframes fadeBackdrop { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
-    
+.field-hint {
+  color: #d9534f; /* rojo Bootstrap-like */
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.field-hint::before {
+  margin-right: 5px;
+}

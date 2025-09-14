@@ -22,9 +22,9 @@ export class PerfilComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-  
     const parsed = JSON.parse(storedUser);
     const userId = parsed.id;
+    this.resetEmail = parsed.email;
   
     this.http.get(`${environment.apiUrl}/users/${userId}`).subscribe({
       next: (data) => {
@@ -40,7 +40,7 @@ export class PerfilComponent implements OnInit {
   updateProfile(): void {
     this.http.put(`${environment.apiUrl}/users/${this.user.id}`, this.user).subscribe({
       next: () => {
-        //alert('✅ Perfil actualizado correctamente');
+        alert('✅ Perfil actualizado correctamente');
         localStorage.setItem('user', JSON.stringify(this.user)); // Actualiza el localStorage
       },
       error: (err) => {
@@ -59,24 +59,32 @@ export class PerfilComponent implements OnInit {
   }
   closeResetModal() {
   this.showResetModal = false;
-  this.resetEmail = '';
-  this.newPassword = '';
   }
   resetPassword(): void {
-  const body = {
-    resetEmail: this.resetEmail,
-    newPassword: this.newPassword,
-  };
-
-  this.http.post(`${environment.apiUrl}/auth/reset-password`, body).subscribe({
+  console.log(this.resetEmail);
+  this.http.post(`${environment.apiUrl}/auth/forgot-password`, { mail: this.resetEmail }).subscribe({
     next: () => {
-      alert('✅ Contraseña actualizada correctamente');
+      alert('📨 Si el correo está registrado, recibirás un enlace de recuperación.');
       this.showResetModal = false;
     },
     error: (err) => {
-      console.error('❌ Error:', err);
-      alert(err.error.message || '❌ No se pudo restablecer la contraseña.');
+      alert(err.error.message || '❌ No se pudo procesar la solicitud.');
     }
   });
 }
+  //evento keypress solo letras
+  allowOnlyLetters(event: KeyboardEvent) {
+    const char = String.fromCharCode(event.keyCode);
+    const pattern = /^[a-zA-ZÀ-ÿ\s]+$/;
+    if (!pattern.test(char)) {
+      event.preventDefault(); // bloquea la tecla
+    }
+  }
+  /// solo numeros
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const char = String.fromCharCode(event.keyCode);
+    if (!/^[0-9]$/.test(char)) {
+      event.preventDefault(); // bloquea todo lo que no sea número
+    }
+  }
 }

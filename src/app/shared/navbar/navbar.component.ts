@@ -125,8 +125,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout() {
     // Clear simple local data; integrate with real auth later
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('user_avatar_url');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 

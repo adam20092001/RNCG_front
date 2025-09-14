@@ -1,7 +1,9 @@
-  <app-navbar-auth></app-navbar-auth>
-  <div class="page-content">
+<app-navbar-auth></app-navbar-auth>
+<div class="page-content">
   <div class="login-container-outer">
-  <div class="auth-wrapper">
+    <div class="auth-wrapper">
+
+      <!-- Lado izquierdo -->
       <div class="auth-left">
         <div class="brand-panel">
           <img src="assets/logo.png" alt="GastroSAI" class="brand__logo" />
@@ -9,23 +11,51 @@
           <p class="slogan">Diagnóstico asistido por IA para clínicas.</p>
         </div>
       </div>
-    
+
+      <!-- Lado derecho -->
       <div class="auth-right">
         <h2>Crear Cuenta</h2>
-    
-        <form (ngSubmit)="register()" #registerForm="ngForm">
-          <input name="name" [(ngModel)]="form.name" placeholder="Nombres" required />
-          <input name="lastname" [(ngModel)]="form.lastname" placeholder="Apellidos" required />
-          <input name="mail" [(ngModel)]="form.mail" placeholder="Correo Electrónico" required />
-          <input name="password" type="password" [(ngModel)]="form.password" placeholder="Contraseña" required />
-          <input name="confirmPassword" type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" required />           
-    
+
+        <form (ngSubmit)="register()" #registerForm="ngForm" novalidate>
+
+          <!-- Nombres -->
+          <input name="name" [(ngModel)]="form.name" placeholder="Nombres" required   (keypress)="allowOnlyLetters($event)"/>
+          <div class="field-hint" *ngIf="registerForm.submitted && !form.name">
+            El nombre es obligatorio.
+          </div>
+
+          <!-- Apellidos -->
+          <input name="lastname" [(ngModel)]="form.lastname" placeholder="Apellidos" required   (keypress)="allowOnlyLetters($event)"/>
+          <div class="field-hint" *ngIf="registerForm.submitted && !form.lastname">
+            El apellido es obligatorio.
+          </div>
+
+          <!-- Correo -->
+          <input type="email" name="mail" [(ngModel)]="form.mail" placeholder="Correo Electrónico" required email />
+          <div class="field-hint" *ngIf="registerForm.submitted && (!form.mail || !registerForm.controls['mail']?.valid)">
+            Ingrese un correo válido.
+          </div>
+
+          <!-- Contraseña -->
+          <input name="password" type="password" [(ngModel)]="form.password" placeholder="Contraseña" required minlength="6" />
+          <div class="field-hint" *ngIf="registerForm.submitted && (!form.password || form.password.length < 6)">
+            La contraseña debe tener al menos 6 caracteres.
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <input name="confirmPassword" type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" required />
+          <div class="field-hint" *ngIf="registerForm.submitted && (form.password !== confirmPassword)">
+            Las contraseñas no coinciden.
+          </div>
+
+          <!-- Botones -->
           <button type="submit" class="btn-primary">Registrarse</button>
           <br>
           <button type="button" class="btn-secondary" (click)="goBack()">Volver</button>
+
         </form>
       </div>
     </div>
   </div>
-  </div>
-      <app-footer></app-footer>  
+</div>
+<app-footer></app-footer>

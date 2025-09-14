@@ -5,10 +5,10 @@
 
   <div class="profile-card fade-in-up" *ngIf="user">
     <label>Nombres</label>
-    <input [(ngModel)]="user.name" />
+    <input [(ngModel)]="user.name"   (keypress)="allowOnlyLetters($event)"/>
 
     <label>Apellidos</label>
-    <input [(ngModel)]="user.lastname" />
+    <input [(ngModel)]="user.lastname"   (keypress)="allowOnlyLetters($event)"/>
 
     <label>Correo</label>
     <input [(ngModel)]="user.mail" disabled />
@@ -24,17 +24,9 @@
         <div class="modal-backdrop" *ngIf="showResetModal">
           <div class="modal-box">
             <h2 class="modal-title">Restablecer Contraseña</h2>
-
             <div class="modal-field">
-              <label>Correo</label>
-              <input type="email" [(ngModel)]="resetEmail" placeholder="Correo electrónico" [disabled]="resetEmail && resetEmail.trim().length > 0" />
+              <label>Desea reestablecer la contraseña? <br><br>Se enviara un enlace a su correo</label>
             </div>
-
-            <div class="modal-field">
-              <label>Nueva contraseña</label>
-              <input type="password" [(ngModel)]="newPassword" placeholder="Nueva contraseña" />
-            </div>
-
             <div class="modal-actions">
               <button class="modal-btn modal-btn-primary" (click)="resetPassword()">Restablecer</button>
               <button class="modal-btn modal-btn-secondary" (click)="closeResetModal()">Cancelar</button>

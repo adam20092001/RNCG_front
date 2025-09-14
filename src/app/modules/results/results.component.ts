@@ -39,7 +39,7 @@ export class ResultsComponent implements OnInit {
     }
 
     this.loadPatients();
-    this.fetchPredictions();
+//    this.fetchPredictions();
     this.loadPredictionsFromRoute();     
   }
 
