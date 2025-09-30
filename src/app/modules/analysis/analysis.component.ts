@@ -30,7 +30,7 @@ export class AnalysisComponent {
       return;
     }
 
-    this.http.get<any[]>(`${environment.apiUrl}/patients/user/${userId}`).subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/patients/usere/${userId}`).subscribe({
       next: (data) => {
         this.patients = data;
         console.log(' Pacientes cargados:', data);

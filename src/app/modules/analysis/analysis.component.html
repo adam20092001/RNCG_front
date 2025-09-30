@@ -24,9 +24,22 @@
       <div class="field">
         <label for="patient-select">Selecciona un paciente</label>
         <select id="patient-select" [(ngModel)]="selectedPatientId" required>
-          <option *ngFor="let patient of patients" [value]="patient.id">
+          <!-- Mensaje cuando no hay pacientes -->
+          <option *ngIf="!patients || patients.length === 0" [ngValue]="null" disabled selected>
+            No hay pacientes registrados
+          </option>
+          <!-- Placeholder cuando sí hay pacientes -->
+          <option *ngIf="patients && patients.length > 0" [ngValue]="null" disabled selected>
+            — Selecciona un paciente —
+          </option>
+
+          <!-- Opciones reales -->
+          <option *ngFor="let patient of patients" [ngValue]="patient.id">
             {{ patient.name }} {{ patient.lastname }} - {{ patient.dni }}
           </option>
+<!--           <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.name }} {{ patient.lastname }} - {{ patient.dni }}
+          </option> -->
         </select>
       </div>
       <div class="field-hint" *ngIf="fileError">
