@@ -15,6 +15,9 @@ export class ResetPasswordComponent implements OnInit {
   newPassword: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
+  showNew = false;
+showConfirm = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -29,11 +32,14 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword(): void {
+    if (this.newPassword.length < 6) {
+      alert('⚠️ La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
     if (this.newPassword !== this.confirmPassword) {
       this.errorMessage = 'Las contraseñas no coinciden';
       return;
     }
-
     const body = { token: this.token, newPassword: this.newPassword };
 
     this.http.post(`${environment.apiUrl}/auth/reset-password`, body).subscribe({
