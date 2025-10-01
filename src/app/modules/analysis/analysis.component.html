@@ -10,7 +10,30 @@
     <p class="subtitle">Sube una imagen endoscópica para obtener resultados asistidos por IA.</p>
 
     <div class="form-card">
-      <!-- Dropzone de archivo -->
+<!--       Dropzone -->
+      <div class="dropzone" [class.drag-active]="dragActive" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)">
+        <input type="file" id="fileInput" class="file-input" accept="image/png,image/jpeg"
+          (change)="onFileSelected($event)" />
+        <label for="fileInput">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Arrastra y suelta una imagen aquí o haz clic para seleccionar</span>
+          <small>Formatos admitidos: JPG, PNG</small>
+        </label>
+      </div>
+
+
+      <div class="field-hint error" *ngIf="imageError">{{ imageError }}</div>
+
+
+      <div class="preview" *ngIf="previewUrl">
+        <img [src]="previewUrl" alt="Vista previa" />
+        <div class="meta">
+          <div style="color: black;" class="filename">{{ selectedFile?.name }}</div>
+          <small style="color: black;">Imagen cargada correctamente</small>
+        </div>
+      </div> 
+      <!-- Dropzone de archivo 
       <div class="dropzone">
         <input type="file" id="fileInput" class="file-input" (change)="onFileSelected($event)" />
         <label for="fileInput">
@@ -18,7 +41,7 @@
           <span>Arrastra y suelta una imagen aquí o haz clic para seleccionar</span>
           <small>Formatos admitidos: JPG, PNG</small>
         </label>
-      </div>
+      </div> -->
 
       <!-- Selector de paciente -->
       <div class="field">
@@ -37,7 +60,7 @@
           <option *ngFor="let patient of patients" [ngValue]="patient.id">
             {{ patient.name }} {{ patient.lastname }} - {{ patient.dni }}
           </option>
-<!--           <option *ngFor="let patient of patients" [value]="patient.id">
+          <!--           <option *ngFor="let patient of patients" [value]="patient.id">
             {{ patient.name }} {{ patient.lastname }} - {{ patient.dni }}
           </option> -->
         </select>

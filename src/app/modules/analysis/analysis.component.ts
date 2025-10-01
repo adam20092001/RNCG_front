@@ -17,6 +17,12 @@ export class AnalysisComponent {
   selectedPatientId: number | null = null;
   predictionId: number | null = null;
   fileError: string = '';
+  //implementaciuon vista previa
+  previewUrl: string | null = null;
+  imageError = '';
+  imageConfirmed = false;
+  dragActive = false;
+
 
   constructor(private router: Router, private http: HttpClient) { }
   ngOnInit(): void {
@@ -63,10 +69,26 @@ export class AnalysisComponent {
   }
 
   onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+    const input = event.target as HTMLInputElement;
+    const file = input.files && input.files[0];
+    if (!file) return;
+
+    if (!this.verificartipodearchivo(file)) {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      this.imageConfirmed = false;
+      return;
+    }
+
+    this.selectedFile = file;
+    this.imageConfirmed = false;
+
+    const reader = new FileReader();
+    reader.onload = () => this.previewUrl = reader.result as string;
+    reader.readAsDataURL(file);
   }
   verificartipodearchivo(file: File): boolean {
-      this.fileError = ''; // limpiar error
+    this.fileError = ''; // limpiar error
     // Validar tipo
     if (!file.type.startsWith('image/')) {
       this.fileError = '⚠️ Formato de archivo no permitido.';
@@ -76,7 +98,7 @@ export class AnalysisComponent {
     return true;
   }
 
-  // 👉 Este método se llama al hacer clic en el botón “Analizar”
+
   onAnalyze(): void {
     const userData = localStorage.getItem('user');
     const user = userData ? JSON.parse(userData) : null;
@@ -121,5 +143,46 @@ export class AnalysisComponent {
     this.showModal = false;
     this.router.navigate(['/resultados'], { queryParams: { predictionId: predictionId } });
   }
+  onDragOver(ev: DragEvent) {
+    ev.preventDefault();
+    this.dragActive = true;
+  }
+
+  onDragLeave(ev: DragEvent) {
+    ev.preventDefault();
+    this.dragActive = false;
+  }
+
+  onDrop(ev: DragEvent) {
+    ev.preventDefault();
+    this.dragActive = false;
+
+    const file = ev.dataTransfer?.files?.[0];
+    if (!file) return;
+
+    // Reusa tu validación existente
+    if (!this.verificartipodearchivo(file)) {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      this.imageConfirmed = false;
+      return;
+    }
+
+    this.selectedFile = file;
+    this.imageConfirmed = false; // si cambias la imagen, vuelve a confirmar
+
+    const reader = new FileReader();
+    reader.onload = () => (this.previewUrl = reader.result as string);
+    reader.readAsDataURL(file);
+  }
+  confirmImage() { this.imageConfirmed = true; }
+  removeImage() {
+    this.selectedFile = null;
+    this.previewUrl = null;
+    this.imageConfirmed = false;
+    const inp = document.getElementById('fileInput') as HTMLInputElement | null;
+    if (inp) inp.value = '';
+  }
+
 }
 
