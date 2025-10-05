@@ -103,6 +103,9 @@
         <div class="field-hint" *ngIf="patientForm.submitted && (missingFields.length > 0) ">
           ⚠️ Campos obligatorios faltantes: {{ missingFields.join(', ') }}
         </div>
+        <div class="field-hint" *ngIf="patientForm.submitted && newPatient.dni.length != 8">
+          ⚠️ DNI debe tener 8 caracteres.
+        </div>
         <div class="modal-actions">
           <button type="submit" class="btn btn-primary">Guardar</button>
           <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
@@ -157,13 +160,15 @@
         <label>DNI:</label>
         <div class="input-wrap">
           <i class="fa-regular fa-address-card"></i>
-          <input type="number" [(ngModel)]="editPatient.dni" placeholder="DNI" required  (keypress)="allowOnlyNumbers($event)" />
+          <input type="number" [(ngModel)]="editPatient.dni" placeholder="DNI" required  (keypress)="allowOnlyNumbers($event)"  (input)="0" />
         </div>
       </div>
       <div class="field-hint" *ngIf="missingFields.length > 0">
         ⚠️ Campos obligatorios faltantes: {{ missingFields.join(', ') }}
       </div>
-
+      <div class="field-hint" *ngIf="(editPatient?.dni?.toString()?.length || 0) > 0  && editPatient?.dni?.toString()?.length !== 8">
+        ⚠️ DNI debe tener 8 caracteres.
+      </div>
       <div class="modal-actions">
         <button class="cancel" (click)="closeEditModal()">Cancelar</button>
         <button class="confirm" (click)="updatePatient()">Actualizar</button>

@@ -106,6 +106,7 @@ export class PacientesComponent implements OnInit {
     }
 
     this.newPatient.disable = false;
+
     if (form && form.invalid) {
       if (!this.newPatient.name) this.missingFields.push('Nombre');
       if (!this.newPatient.lastname) this.missingFields.push('Apellido');
@@ -113,6 +114,9 @@ export class PacientesComponent implements OnInit {
       if (!this.newPatient.sex) this.missingFields.push('Sexo');
       if (!this.newPatient.dni) this.missingFields.push('DNI');
       return; // no enviar si faltan campos
+    }
+    if (this.newPatient.dni.length != 8) {
+      return;
     }
     this.http.post(`${environment.apiUrl}/patients`, { ...this.newPatient, user: { id: userId } }).subscribe({
       next: () => {
@@ -145,10 +149,13 @@ export class PacientesComponent implements OnInit {
     if (!this.editPatient.age) this.missingFields.push('Edad');
     if (!this.editPatient.sex) this.missingFields.push('Sexo');
     if (!this.editPatient.dni) this.missingFields.push('DNI');
-
     // Si hay faltantes, no enviar
     if (this.missingFields.length > 0) {
       return;
+    }
+    if ((this.editPatient?.dni?.toString()?.length || 0) > 0 && this.editPatient?.dni?.toString()?.length !== 8) {
+      return;
+      console.log('DNI debe tener 8 caracteres');
     }
     this.http.put(`${environment.apiUrl}/patients/${this.editPatient.id}`, this.editPatient).subscribe({
       next: () => {
@@ -181,6 +188,4 @@ export class PacientesComponent implements OnInit {
       event.preventDefault(); // bloquea todo lo que no sea número
     }
   }
-
-
 }
