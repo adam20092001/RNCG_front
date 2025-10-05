@@ -14,14 +14,14 @@
     <li><a routerLink="/resultados" routerLinkActive="active">Visualización de resultados</a></li>
   </ul>
 
-  <!-- ICONOS DERECHA -->
+  <!-- ICONOS DERECHA
   <div class="navbar-icons">
     <button class="icon-btn bell" aria-label="Notificaciones" (click)="toggleNotifications()">
       <i class="fa-solid fa-bell" aria-hidden="true"></i>
       <span class="badge-dot" *ngIf="notificationCount > 0" aria-hidden="true"> {{ notificationCount }}</span>
-    </button>
+    </button> -->
 
-    <!-- DROPDOWN DE NOTIFICACIONES -->
+    <!-- DROPDOWN DE NOTIFICACIONES
     <div class="notifications-dropdown" *ngIf="showNotifications">
       <div *ngIf="notifications.length === 0" class="empty">
         No tienes notificaciones
@@ -31,7 +31,7 @@
         <p>{{ n.message }}</p>
         <small>{{ n.createdAt | date:'short' }}</small>
       </div>
-    </div>
+    </div>-->
     <div class="profile-wrapper" #profileWrapper>
       <button type="button" class="icon-btn profile" [attr.aria-expanded]="isProfileMenuOpen" aria-haspopup="menu"
         [attr.aria-controls]="profileMenuId" aria-label="Perfil" (click)="toggleProfileMenu($event)" #profileButton>
@@ -51,7 +51,8 @@
           (click)="logout(); closeProfileMenu()" #menuItem>Cerrar Sesión</button>
       </div>
     </div>
-  </div>
+
+
 
   <!-- BOTÓN HAMBURGER -->
   <button class="navbar-toggle" (click)="toggleMenu()" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen"
