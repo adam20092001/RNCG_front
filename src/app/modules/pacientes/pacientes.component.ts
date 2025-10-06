@@ -12,6 +12,7 @@ export class PacientesComponent implements OnInit {
   patients: any[] = [];
   showModal = false;
   showEditModal = false;
+  showDeleteModal = false;
   editPatient: any = null;
   deletePatiente: any = null;
   searchText: string = '';
@@ -70,21 +71,19 @@ export class PacientesComponent implements OnInit {
       .trim();
   }
 
-  deletePatient(patiente: any) {
-    this.deletePatiente = patiente;
+  deletePatient() {
     this.deletePatiente.disable = true;
-    if (confirm('¿Estás seguro de que deseas eliminar este paciente?')) {
-      this.http.put(`${environment.apiUrl}/patients/${this.deletePatiente.id}`, this.deletePatiente).subscribe({
-        next: () => {
-          this.loadPatients();
-        },
-        error: err => {
-          console.error('❌ Error al eliminar paciente:', err);
-        }
-
-      });
-    }
+    this.http.put(`${environment.apiUrl}/patients/${this.deletePatiente.id}`, this.deletePatiente).subscribe({
+      next: () => {
+        this.loadPatients();
+         this.closeDeleteModal()
+      },
+      error: err => {
+        console.error('❌ Error al eliminar paciente:', err);
+      }
+    });
     // this.deletePatiente=null;
+    this.deletePatiente=null;
   }
 
   openModal(): void {
@@ -141,6 +140,18 @@ export class PacientesComponent implements OnInit {
     this.editPatient = null;
     this.missingFields = [];
   }
+
+
+  openDeleteModal(patient: any) {
+    this.deletePatiente={...patient};
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.deletePatiente = null;
+  }
+
 
   updatePatient() {
     this.missingFields = [];

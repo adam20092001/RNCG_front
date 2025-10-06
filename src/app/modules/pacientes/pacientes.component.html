@@ -42,7 +42,7 @@
           <td class="row-actions">
             <button class="icon" title="Editar" (click)="openEditModal(patient)"><i
                 class="fa-solid fa-pen"></i></button>
-            <button class="icon danger" title="Eliminar" (click)="deletePatient(patient)"><i
+            <button class="icon danger" title="Eliminar" (click)="openDeleteModal(patient)"><i
                 class="fa-solid fa-trash"></i></button>
             <button class="icon" title="Ver resultados" (click)="verResultados(patient.id)"><i
                 class="fa-solid fa-eye"></i></button>
@@ -107,8 +107,8 @@
           ⚠️ DNI debe tener 8 caracteres.
         </div>
         <div class="modal-actions">
-          <button type="submit" class="btn btn-primary">Guardar</button>
           <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </form>
     </div>
@@ -172,6 +172,19 @@
       <div class="modal-actions">
         <button class="cancel" (click)="closeEditModal()">Cancelar</button>
         <button class="confirm" (click)="updatePatient()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL DE ELIMINAR PACIENTE -->
+  <div class="modal-backdrop" *ngIf="showDeleteModal">
+    <div class="modal-box delete-patient">
+      <h2>Eliminar Paciente</h2>
+      <p style="color: black;">¿Estás seguro de que deseas eliminar al paciente? Esta acción no se puede deshacer</p>
+      <div class="title-underline" aria-hidden="true"></div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" (click)="closeDeleteModal()">Cancelar</button>
+        <button class="btn btn-primary" (click)="deletePatient()">Eliminar</button>
       </div>
     </div>
   </div>
