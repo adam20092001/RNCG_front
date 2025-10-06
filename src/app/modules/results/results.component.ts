@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-results',
@@ -24,7 +25,7 @@ export class ResultsComponent implements OnInit {
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  constructor(private http: HttpClient, public route: ActivatedRoute, private router: Router) {}
+  constructor(private notificationsService: NotificationsService, private http: HttpClient, public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     const userData = localStorage.getItem('user');
@@ -108,11 +109,18 @@ export class ResultsComponent implements OnInit {
           prediction.validate = true;
         }
         alert('✅ Predicción validada correctamente');
+        this.markAsRead(prediction.user.id , prediction.id);
+        console.log(prediction.user.id , prediction.id);
       },
       error: () => {
         alert('❌ Error al validar la predicción');
       }
-    });
+    }); 
+  }
+  markAsRead(userId: number, predictionId:number) {
+      this.notificationsService.markAsRead(userId,predictionId).subscribe(() => {
+        console.log('✅ Notificación marcada como leída');
+      });
   }
 
   openDetailModal(prediction: any): void {

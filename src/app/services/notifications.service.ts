@@ -29,10 +29,9 @@ export class NotificationsService {
   getByUser(userId: number): Observable<Notification[]> {
     return this.http.get<Notification[]>(`${this.apiUrl}?userId=${userId}`);
   }
-
-  /* markAsRead(id: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}/read`, {});
-  } */
+  getByUserPrediction(userId: number, predictionId:number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.apiUrl}/${userId}/${predictionId}/find`);
+  }
    // Actualizar los contadores globales
   setNotificationCount(count: number) {
     this.notificationCountSubject.next(count);
@@ -40,6 +39,9 @@ export class NotificationsService {
 
   setPendingCount(count: number) {
     this.pendingCountSubject.next(count);
+  }
+  markAsRead(userId: number, predictionId:number): Observable<Notification> {
+    return this.http.patch<Notification>(`${this.apiUrl}/${userId}/${predictionId}/read`, {});
   }
 }
 

@@ -28,7 +28,8 @@ export class RevealDirective implements AfterViewInit {
 export class HomeComponent implements OnInit {
   pendingCount = 0;
   summary: any = { notifications: 0, pending: 0 };
-
+  notifications: Notification[] = [];
+  contadoralertas=0
 
   constructor(private http: HttpClient, private notificationsService: NotificationsService) { }
 
@@ -41,6 +42,12 @@ export class HomeComponent implements OnInit {
           this.pendingCount = res.pendingCount;
           this.notificationsService.setPendingCount(res.pendingCount);
         });
+      this.http.get<{contadoralertas: number}>(`${environment.apiUrl}  `)
+      this.notificationsService.getByUser(user.id).subscribe(list => {
+        const unread = list.filter(n => !n.isRead);
+        this.notifications = unread;
+        this.notificationsService.setNotificationCount(unread.length);
+      });
     }
     this.notificationsService.notificationCount$.subscribe(n => {
       this.summary.notifications = n;
