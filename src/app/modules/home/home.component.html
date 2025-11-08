@@ -3,11 +3,17 @@
   <div class="home-container">
     <!-- Resumen de notificaciones clínicas -->
     <div class="summary-box">
-      <div *ngIf="summary.pending > 0" class="summary warning">
+      <div *ngIf="summary.pending > 1" class="summary warning">
         ⚠️ Tienes {{ summary.pending }} resultados pendientes de validación.
       </div>
-      <div *ngIf="summary.notifications > 0" class="summary critical">
+      <div *ngIf="summary.notifications > 1" class="summary critical">
         🔴 Tienes {{ summary.notifications }} notificaciones clínicas sin leer.
+      </div>
+      <div *ngIf="summary.pending === 1" class="summary warning">
+        ⚠️ Tienes {{ summary.pending }} resultado pendiente de validación.
+      </div>
+      <div *ngIf="summary.notifications === 1" class="summary critical">
+        🔴 Tienes {{ summary.notifications }} notificación clínica sin leer.
       </div>
       <div *ngIf="summary.pending === 0 && summary.notifications === 0" class="summary empty">
         No existen notificaciones recientes.
